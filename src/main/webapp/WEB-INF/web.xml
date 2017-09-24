@@ -4,4 +4,24 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <filter>
+  	<filter-name>LoggedinFilter</filter-name>
+  	<display-name>LoggedinFilter</display-name>
+  	<description></description>
+  	<filter-class>edu.unsw.comp9321.LoggedinFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>LoggedinFilter</filter-name>
+  	<url-pattern>/secure</url-pattern>
+  </filter-mapping>
+  <servlet>
+  	<servlet-name>AuthenticationServlet</servlet-name>
+  	<display-name>AuthenticationServlet</display-name>
+  	<description></description>
+  	<servlet-class>edu.unsw.comp9321.AuthenticationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AuthenticationServlet</servlet-name>
+  	<url-pattern>/AuthenticationServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

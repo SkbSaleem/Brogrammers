@@ -4,12 +4,12 @@
 		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
-        <property name="hibernate.connection.password">root</property>
-        <property name="hibernate.connection.url">jdbc:mysql://ERLEND-PC</property>
-        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.username">Admin</property>
+        <property name="hibernate.connection.password">Brogrammers</property>
+        <property name="hibernate.connection.url">jdbc:mysql://unswbookdb.cfsca2aleihi.ap-southeast-2.rds.amazonaws.com:3306/unswbookdb</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         
-        <mapping class="edu.unsw.comp9321.Users" />
+        <mapping class="edu.unsw.comp9321.UsersPojo" />
     </session-factory>
 </hibernate-configuration>
