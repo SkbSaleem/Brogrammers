@@ -23,37 +23,51 @@
 				<fieldset>
 					<legend class="legend">Log In</legend>
 					<c:if test="${param.unauthorized eq true}">
-						<h3 class="filtererror">You are not authorized to view that page. Please log in.</h3>
+						<h3 class="filtererror">You are not authorized to view that
+							page. Please log in.</h3>
 					</c:if>
 					<c:if test="${loginfailed eq true}">
-						<h3 class="filtererror">Wrong username or password. Please try again.</h3>
+						<h3 class="filtererror">Wrong username or password. Please
+							try again.</h3>
 					</c:if>
-					
+
 					<div class="form-group">
+						<label class="col-md-4 control-label" for="lastname">Username</label>
 						<div class="col-md-5">
 							<input type="text" name="username" placeholder="Username"
 								required="required" />
 						</div>
 					</div>
-					
+
 					<div class="form-group">
+						<label class="col-md-4 control-label" for="lastname">Password</label>
 						<div class="col-md-5">
 							<input type="password" name="password" placeholder="Password"
 								required="required" />
 						</div>
 					</div>
-					
+
 					<div class="form-group">
+						<label class="col-md-4 control-label" for="submit"></label>
 						<div class="col-md-5>">
-							<input type="submit" value="Sign In"
-								class="btn btn-warning btn-sm" />
+							<button id="submit" type="submit" class="btn btn-warning btn-sm">Sign
+								In</button>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="register"></label>
+						<div class="col-md-5">
+							<a id="register" class="filtererror" href="register.jsp">Not
+								a user yet? Register here.</a>
+						</div>
+					</div>
+
 				</fieldset>
 			</form>
-<!-- The following is not yet implemented, just temporarily hidden with display:none -->
 		</div>
 	</div>
+	<!-- The following is not yet implemented, just temporarily hidden with display:none -->
 	<form class="form-horizontal">
 		<div class="remember-forgot" style="display: none;">
 			<div class="row">

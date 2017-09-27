@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -37,13 +38,10 @@ public class LoggedinFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		String nextPage = request.getRequestURI();
 		Credit authenticated = (Credit) request.getSession().getAttribute("credit");
 		if(authenticated == null || !authenticated.isAuthorized()) {
-			nextPage="/login.jsp?unauthorized=true";
-			//request.setAttribute("filtererror", "You are not authorized to view this page. Please log in or create a user.");
-			String contextPath = request.getContextPath();
-			response.sendRedirect(response.encodeRedirectURL(contextPath + nextPage)); 
+			System.out.println(request.getContextPath());
+			response.sendRedirect(request.getContextPath()+"/login.jsp?unauthorized=true");
 		}
 		else {
 			chain.doFilter(request, response);

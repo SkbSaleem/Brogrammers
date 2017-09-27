@@ -33,9 +33,15 @@ public class AuthenticationServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nextPage = "";
+		if(request.getParameter("param").equals("logout")) {
+			request.getSession().invalidate();
+			nextPage = "login.jsp";
+		}
+		
 		if(request.getParameter("token")!=null) {
 			
 			Credit credit = new UsersData().confirmUser(request.getParameter("token"));
+			request.getSession().setAttribute("credit", credit);
 			if(credit.isAuthorized()) {
 				nextPage = "/loggedin/index.jsp";
 			}
@@ -44,7 +50,7 @@ public class AuthenticationServlet extends HttpServlet {
 				nextPage = "login.jsp";
 			}
 		}
-		request.getRequestDispatcher(nextPage).forward(request, response);
+		response.sendRedirect(request.getContextPath()+"/"+nextPage);
 	}
 
 	/**
@@ -52,7 +58,6 @@ public class AuthenticationServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 		String nextPage="";
 		String param = request.getParameter("param");
 		if(param.equals("create")) {
@@ -89,24 +94,23 @@ public class AuthenticationServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
 		if(param.equals("login")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			Credit isAuthenticated = new UsersData().authenticateUser(username, password);
 			if(isAuthenticated.isAuthorized()) {
+				System.out.println("test");
 				request.getSession().setAttribute("credit", isAuthenticated);
 				nextPage = "loggedin/index.jsp";
 			}
 			else {
 				request.setAttribute("loginfailed", true);
-				nextPage = "login.jsp";
+				System.out.println("test");
+				nextPage = "login.jsp?unauthorized=true";
 			}
 		}
-		if(param.equals("logout")) {
-			request.getSession().invalidate();
-			response.sendRedirect("/login.jsp");
-		}
-			RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
-			 rd.forward(request, response);	
+		System.out.println(request.getContextPath());
+		response.sendRedirect(request.getContextPath()+"/"+nextPage);
 	}
 }

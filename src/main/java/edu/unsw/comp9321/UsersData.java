@@ -1,5 +1,6 @@
 package edu.unsw.comp9321;
 
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -7,14 +8,12 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
@@ -23,8 +22,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
-
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import java.sql.Blob;
 
@@ -92,11 +89,14 @@ public class UsersData {
 		for(Object user:session.createSQLQuery("SELECT UserName from users").list()) {
 			if(user.toString().equals(username)) {
 				//This should handle any potential SQL injection
-				Query passwordquery = session.createSQLQuery("SELECT Password, Banned from users WHERE UserName=:user").setParameter("user", username);
-				List<Object[]> userpassword = passwordquery.list();
-				if(userpassword.get(0)[0].equals(password) && Boolean.parseBoolean(userpassword.get(0)[1].toString())==false) {
+				Query passwordquery = session.createSQLQuery("SELECT * from users WHERE UserName=:user").setParameter("user", username);
+				List<Object[]> userDetails = passwordquery.list();
+				if(userDetails.get(0)[1].equals(password) && Boolean.parseBoolean(userDetails.get(0)[8].toString())==false) {
 					session.close();
-					return new Credit(username,true);
+					System.out.println("Work work work work work work");
+					return new Credit(username, true, (Date)userDetails.get(0)[2], userDetails.get(0)[3].toString(),
+							 userDetails.get(0)[4].toString(), userDetails.get(0)[5].toString(), (byte[]) userDetails.get(0)[6],
+							 userDetails.get(0)[7].toString());
 				}
 				session.close();
 				return new Credit(username,false);
@@ -107,14 +107,15 @@ public class UsersData {
 	}
 	
 	public Credit confirmUser(String token) {
-		//TODO implement...
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
 		String newToken = returnUniqueToken(generateToken());
-		String username = session.createSQLQuery("SELECT UserName from users WHERE URL=:token").setParameter("token", token).uniqueResult().toString();
-		session.createSQLQuery("UPDATE users SET URL=:token WHERE UserName=:username").setParameter("username", username).setParameter("token", newToken);
+		String username = session.createSQLQuery("SELECT UserName from users WHERE URL=:token").setParameter("token", newToken).uniqueResult().toString();
+		List<Object[]> userDetails = session.createSQLQuery("SELECT * from users WHERE UserName = :username").setParameter("username", username).list();
+		session.createSQLQuery("UPDATE users SET URL=:token, Banned=0 WHERE UserName=:username").setParameter("username", username).setParameter("token", newToken);
 		session.close();
-		return new Credit(username,true);
+		return new Credit(username, true, (Date) userDetails.get(0)[2], userDetails.get(0)[3].toString(),
+				 userDetails.get(0)[4].toString(),  userDetails.get(0)[5].toString(), (byte[]) userDetails.get(0)[6],  userDetails.get(0)[7].toString());
 	}
 	
 	private String generateToken() {
