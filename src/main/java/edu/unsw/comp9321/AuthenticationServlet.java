@@ -32,8 +32,19 @@ public class AuthenticationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String nextPage = "";
+		if(request.getParameter("token")!=null) {
+			
+			Credit credit = new UsersData().confirmUser(request.getParameter("token"));
+			if(credit.isAuthorized()) {
+				nextPage = "/loggedin/index.jsp";
+			}
+			else {
+				request.setAttribute("loginfailed", true);
+				nextPage = "login.jsp";
+			}
+		}
+		request.getRequestDispatcher(nextPage).forward(request, response);
 	}
 
 	/**
@@ -45,7 +56,7 @@ public class AuthenticationServlet extends HttpServlet {
 		String nextPage="";
 		String param = request.getParameter("param");
 		if(param.equals("create")) {
-			nextPage = "index.jsp"; //Change to the correct page
+			nextPage = "confirm.jsp";
 			try {
 				if (! ServletFileUpload.isMultipartContent(request)) {
 					System.out.println("sorry. No file uploaded");
@@ -69,7 +80,10 @@ public class AuthenticationServlet extends HttpServlet {
 						items.put(item.getFieldName(), item);
 					}
 				}
-				new UsersData().createUser(items);
+				new UsersData().createUser(items, request);
+				if(request.getAttribute("exists")!=null) {
+					nextPage = "register.jsp?exists=true";
+				}
 			}catch(Exception e){
 				nextPage="register.jsp";
 				e.printStackTrace();
@@ -78,17 +92,21 @@ public class AuthenticationServlet extends HttpServlet {
 		if(param.equals("login")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			boolean isAuthenticated = new UsersData().authenticateUser(username, password);
-			if(isAuthenticated) {
-				System.out.println("SUCCESS");
-				nextPage = "/loggedin/index.jsp"; //Change to proper later
+			Credit isAuthenticated = new UsersData().authenticateUser(username, password);
+			if(isAuthenticated.isAuthorized()) {
+				request.getSession().setAttribute("credit", isAuthenticated);
+				nextPage = "loggedin/index.jsp";
 			}
 			else {
-				nextPage = request.getRequestURI();
-				System.out.println("NOT SUCCESS");
+				request.setAttribute("loginfailed", true);
+				nextPage = "login.jsp";
 			}
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
-		 rd.forward(request, response);	
+		if(param.equals("logout")) {
+			request.getSession().invalidate();
+			response.sendRedirect("/login.jsp");
+		}
+			RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
+			 rd.forward(request, response);	
 	}
 }

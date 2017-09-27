@@ -161,3 +161,12 @@ form.login a:hover
     transition: background-color 0.5s ease;
 }
 
+.filtererror
+{
+	font-family: 'Open Sans' , sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: #FFCC00;
+    letter-spacing: 4px;
+}

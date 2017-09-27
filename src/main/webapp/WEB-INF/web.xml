@@ -12,7 +12,7 @@
   </filter>
   <filter-mapping>
   	<filter-name>LoggedinFilter</filter-name>
-  	<url-pattern>/secure</url-pattern>
+  	<url-pattern>/loggedin/*</url-pattern>
   </filter-mapping>
   <servlet>
   	<servlet-name>AuthenticationServlet</servlet-name>
@@ -23,5 +23,9 @@
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
   	<url-pattern>/AuthenticationServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AuthenticationServlet</servlet-name>
+  	<url-pattern>/confirm</url-pattern>
   </servlet-mapping>
 </web-app>

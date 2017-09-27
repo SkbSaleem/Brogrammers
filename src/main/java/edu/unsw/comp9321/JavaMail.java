@@ -56,7 +56,7 @@ public class JavaMail {
 		         message.setSubject("UNSWBook email verification");
 		         
 		         // Now set the actual message
-		         message.setText("Verify your account by clicking on the URL: "+ url);
+		         message.setText("Verify your account by clicking on the URL: "+ "http://localhost:8080/UNSWBook/confirm?token="+url);
 		         Transport.send(message);
 		         System.out.println("Email sent");
 			} catch (AddressException e) {

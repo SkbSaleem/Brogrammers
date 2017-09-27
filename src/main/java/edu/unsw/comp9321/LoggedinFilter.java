@@ -35,19 +35,19 @@ public class LoggedinFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-		System.out.println("test");
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		String nextPage = request.getRequestURI();
-		boolean authenticated = Boolean.parseBoolean(request.getSession().getAttribute("authenticated").toString());
-		System.out.println(authenticated);
-		if(!authenticated) {
-			request.getSession().setAttribute("previousPage", nextPage);
-			nextPage = "/login.jsp";
+		Credit authenticated = (Credit) request.getSession().getAttribute("credit");
+		if(authenticated == null || !authenticated.isAuthorized()) {
+			nextPage="/login.jsp?unauthorized=true";
+			//request.setAttribute("filtererror", "You are not authorized to view this page. Please log in or create a user.");
+			String contextPath = request.getContextPath();
+			response.sendRedirect(response.encodeRedirectURL(contextPath + nextPage)); 
 		}
-		request.getRequestDispatcher(nextPage).forward(request, response);
+		else {
+			chain.doFilter(request, response);
+		}
 	}
 
 	/**
