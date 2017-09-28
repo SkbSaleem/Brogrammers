@@ -2,7 +2,7 @@
 
 body
 {
-    background: #666666 fixed;
+    background: #d8d8d8 fixed;
     background-size: cover;
     padding: 0;
     margin: 0;
@@ -14,7 +14,7 @@ body
     font-size: 20px;
     font-weight: 600;
     text-align: center;
-    color: #FFCC00;
+    color: #fb9e22;
     margin-top: 5%;
     text-transform: uppercase;
     letter-spacing: 4px;
@@ -164,9 +164,9 @@ form.login a:hover
 .filtererror
 {
 	font-family: 'Open Sans' , sans-serif;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     text-align: center;
-    color: #FFCC00;
+    color: #fb9e22;
     letter-spacing: 4px;
 }

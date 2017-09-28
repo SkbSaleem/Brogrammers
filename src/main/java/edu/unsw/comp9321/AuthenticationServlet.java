@@ -105,9 +105,8 @@ public class AuthenticationServlet extends HttpServlet {
 				nextPage = "loggedin/index.jsp";
 			}
 			else {
-				request.setAttribute("loginfailed", true);
 				System.out.println("test");
-				nextPage = "login.jsp?unauthorized=true";
+				nextPage = "login.jsp?loginfailed";
 			}
 		}
 		System.out.println(request.getContextPath());
