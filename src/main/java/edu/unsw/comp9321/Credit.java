@@ -8,7 +8,7 @@ public class Credit {
 	private boolean authorized;
 	private String firstName;
 	private String lastName;
-	private byte[] profilePic;
+	private String profilePic;
 	private String civilStatus;
 	private Date dob;
 	private String gender;
@@ -19,7 +19,7 @@ public class Credit {
 	}
 	
 	public Credit(String username, boolean authorized, Date dob, String gender,
-			String firstname, String lastname, byte[] profilepic, String civilstatus ) {
+			String firstname, String lastname, String profilepic, String civilstatus ) {
 	this.username = username;
 	this.authorized = authorized;
 	this.firstName = firstname;
@@ -46,11 +46,11 @@ public class Credit {
 		this.lastName = lastName;
 	}
 
-	public byte[] getProfilePic() {
+	public String getProfilePic() {
 		return profilePic;
 	}
 
-	public void setProfilePic(byte[] profilePic) {
+	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
 	}
 

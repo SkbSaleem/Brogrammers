@@ -23,6 +23,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 import java.sql.Blob;
 
 import edu.unsw.comp9321.HibernateHelper;
@@ -94,8 +96,13 @@ public class UsersData {
 				if(userDetails.get(0)[1].equals(password) && Boolean.parseBoolean(userDetails.get(0)[8].toString())==false) {
 					session.close();
 					System.out.println("Work work work work work work");
-					return new Credit(username, true, (Date)userDetails.get(0)[2], userDetails.get(0)[3].toString(),
-							 userDetails.get(0)[4].toString(), userDetails.get(0)[5].toString(), (byte[]) userDetails.get(0)[6],
+					//byte [] b = (byte[]) userDetails.get(0)[6];
+					//String encodedImage= Base64.encode(b);
+					return new Credit(username, true, 
+							(Date)userDetails.get(0)[2], 
+							userDetails.get(0)[3].toString(),
+							 userDetails.get(0)[4].toString(), userDetails.get(0)[5].toString(), 
+							 Base64.encode((byte[]) userDetails.get(0)[6]).toString(),
 							 userDetails.get(0)[7].toString());
 				}
 				session.close();
@@ -115,7 +122,7 @@ public class UsersData {
 		session.createSQLQuery("UPDATE users SET URL=:token, Banned=0 WHERE UserName=:username").setParameter("username", username).setParameter("token", newToken);
 		session.close();
 		return new Credit(username, true, (Date) userDetails.get(0)[2], userDetails.get(0)[3].toString(),
-				 userDetails.get(0)[4].toString(),  userDetails.get(0)[5].toString(), (byte[]) userDetails.get(0)[6],  userDetails.get(0)[7].toString());
+				 userDetails.get(0)[4].toString(),  userDetails.get(0)[5].toString(), Base64.encode((byte[]) userDetails.get(0)[6]).toString(),  userDetails.get(0)[7].toString());
 	}
 	
 	private String generateToken() {
