@@ -52,7 +52,7 @@ public class AuthenticationServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
 		String nextPage="";
 		String param = request.getParameter("param");
 		if(param.equals("create")) {
@@ -96,10 +96,12 @@ public class AuthenticationServlet extends HttpServlet {
 			if(isAuthenticated.isAuthorized()) {
 				request.getSession().setAttribute("credit", isAuthenticated);
 				nextPage = "loggedin/index.jsp";
+
 			}
 			else {
 				request.setAttribute("loginfailed", true);
 				nextPage = "login.jsp";
+				return;
 			}
 		}
 		if(param.equals("logout")) {
@@ -107,6 +109,6 @@ public class AuthenticationServlet extends HttpServlet {
 			response.sendRedirect("/login.jsp");
 		}
 			RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
-			 rd.forward(request, response);	
+			 rd.forward(request, response);
 	}
 }
