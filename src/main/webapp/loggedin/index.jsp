@@ -8,13 +8,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <body>
-<%@ include file="header.html"%>
+	<%@ include file="header.html"%>
+<script type="text/javascript">
 
+
+
+</script>
 	<h2>Welcome ${credit.firstName } ${credit.lastName }</h2>
-<c:out value="${message }"></c:out></title>
-
-
-
+	</title>
 
 	<div class="container">
 		<div class="row">
@@ -27,7 +28,7 @@
 
 			</div>
 			<div class="content" style="overflow: auto">
-				<div class="col-md-8" style="background-color: #D3D3D3">
+				<div class="col-md-8" style="background-color: #f2f2f2">
 					<form action="/UNSWBook/profileController" method="POST">
 						<div class="form-group">
 							<label for="comment">Post:</label>
@@ -47,8 +48,43 @@
 					</form>
 
 				</div>
-											<div class="col-sm-10"><h5>Header</h5></div>
-				
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+
+				<c:if test="${not empty plist}">
+
+						<c:forEach var="array" items="${plist}">
+											<form action="/UNSWBook/profileController" method="post">
+						
+							<c:set var="pid" scope="session" value="${array[2]}" />
+							<div class="panel panel-success">
+								<div class="panel-heading">
+									<c:out value="${array[1]}" />
+								</div>
+								<div class="panel-body">
+									<input class="form-control" type="text" name="bodyContent" 
+										value="<c:out value="${array[0]}" />" disabled
+										style="cursor: default">
+								</div>
+								<div class="panel-footer">
+									<button type="submit" class="btn btn-danger btn-xs" 
+										name="btn-deletepost" value="<c:out value = "${pid}"/>">
+										Delete</button>
+									
+									<button type="submit" class="btn btn-danger btn-xs" 
+										name="btn-editpost" value="<c:out value = "${pid}"/>" >Edit</button>
+									
+								</div>
+							</div>
+							</form>
+						</c:forEach>
+					
+
+				</c:if>
 			</div>
 		</div>
 </body>

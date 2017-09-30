@@ -45,12 +45,31 @@ public class PostData {
 			}
 
 	}
+	public void updatePost(int postId, String content) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tx=null;		
+		try {
+			   tx = session.beginTransaction();
+				//Query query = session.createSQLQuery("delete from posts where PostId = :postid").setParameter("postid", postId);
+				Query query2 = session.createQuery("update PostPojo SET content= :content  where postid = :postid").
+						setParameter("postid", postId).setParameter("content", content);
+
+				query2.executeUpdate();
+			   tx.commit();
+			}
+			catch (Exception e) {
+			   if (tx!=null) tx.rollback();
+			   e.printStackTrace(); 
+			}finally {
+			   session.close();
+			}
+	}
 	public void deletePost(int postId) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tx=null;		
 		try {
 			   tx = session.beginTransaction();
-				Query query = session.createSQLQuery("delete from posts where PostId = :postid").setParameter("postid", postId);
+				//Query query = session.createSQLQuery("delete from posts where PostId = :postid").setParameter("postid", postId);
 				Query query2 = session.createQuery("delete PostPojo where postid = :postid").setParameter("postid", postId);
 
 				query2.executeUpdate();
@@ -67,11 +86,11 @@ public class PostData {
 	public List<Object[]> getProfilePost(String username) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tx=null;	
-		System.out.println("get posts from " + username);
+		//System.out.println("get posts from " + username);
 
 		try {	
 			   tx = session.beginTransaction();
-				Query query = session.createSQLQuery("select posts.Content, posts.TimePosted, posts.Likes "
+				Query query = session.createSQLQuery("select posts.Content, posts.TimePosted, posts.PostId, posts.Likes "
 						+ "from users, posts where users.UserName = posts.UserName");
 				List <Object[]> querylist = query.list();
 				for (Object [] objects : querylist) {

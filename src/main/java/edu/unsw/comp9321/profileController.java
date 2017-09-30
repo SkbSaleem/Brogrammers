@@ -38,22 +38,55 @@ public class profileController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		System.out.println("jupp");
 		Credit c = (Credit) request.getSession().getAttribute("credit");
 		List<Object[]> p = null;
-		if (request.getParameter("btn-post").equals("post")) {
+		String nextpage = "";
+		if (request.getParameter("btn-post")!=null) {
+			if(request.getParameter("btn-post").equals("post")){
+				
+			
 			String content = request.getParameter("textareapost");
 			new PostData().createPost(content, c.getUsername());
-
+			nextpage = "index.jsp";
 			//request.getSession().setAttribute("plist", p);
+			}
 		}
+		
+		if (request.getParameter("btn-deletepost")!=null) {
+			System.out.println("button pressed");
+			int pid = Integer.parseInt(request.getParameter("btn-deletepost"));
+			//System.out.println("pid"+pid);
+			new PostData().deletePost(pid);
+			nextpage = "index.jsp";
+
+		}
+		if(request.getParameter("btn-editpost")!=null) {
+			int pid = Integer.parseInt(request.getParameter("btn-editpost"));
+			System.out.println(pid);
+			//System.out.println(request.getParameter("editcontent"));
+			//System.out.println(request.getParameter("bodyContent"));
+
+			nextpage = "editpost.jsp?postID="+pid;
+			
+		}
+
+		if(request.getParameter("btn-submitchanges")!=null) {
+			System.out.println("Edit button clicked");
+			String content = request.getParameter("editedpost");
+			int pid = Integer.parseInt(request.getParameter("btn-submitchanges"));
+			System.out.println(pid + ":" +content);
+			new PostData().updatePost(pid, content);
+			nextpage="index.jsp";
+			
+		}
+
 		p = new PostData().getProfilePost(c.getUsername());
-		request.getSession().setAttribute("plist", p);
 
 
 	//request.getRequestDispatcher("/loggedin/index.jsp").forward(request, response);
+		request.getSession().setAttribute("plist", p);
 
-	response.sendRedirect(request.getContextPath()+"/loggedin/index.jsp");
+	response.sendRedirect(request.getContextPath()+"/loggedin/"+nextpage);
 
 	}
 
