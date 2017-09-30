@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,8 +91,8 @@ public class PostData {
 
 		try {	
 			   tx = session.beginTransaction();
-				Query query = session.createSQLQuery("select posts.Content, posts.TimePosted, posts.PostId, posts.Likes "
-						+ "from users, posts where users.UserName = posts.UserName");
+				Query query = session.createSQLQuery("select Content, TimePosted, PostId, Likes "
+						+ "from posts where UserName = :username").setParameter("username", username);
 				List <Object[]> querylist = query.list();
 				for (Object [] objects : querylist) {
 					//System.out.println(objects[0].toString() + " - " + objects[1].toString());
@@ -101,6 +102,7 @@ public class PostData {
 				
 				
 			   tx.commit();
+			   Collections.reverse(querylist);
 			   return querylist;
 
 			}

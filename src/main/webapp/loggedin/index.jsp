@@ -7,19 +7,16 @@
 <%@ include file="header.html"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <body>
-	<h2>Welcome ${credit.firstName } ${credit.lastName }</h2>
-	</title>
-
 	<div class="container">
 		<div class="row">
 			<div class="col-md-3">
 				<div>
-				<img src="data:image/jpg;base64,${convertedProfilepic }"
-					class="avatar img-circle" alt="avatar"
-					style="width: 100px; height: 100px;"></div>
-					<div>  
-					<a href="#" class="btn btn-info" role="button">Link Button</a>
-					</div>
+					<img src="data:image/jpg;base64,${convertedProfilepic }"
+						class="avatar img-circle" alt="avatar"
+						style="width: 100px; height: 100px;">
+					<h2 style="align-content: left;">${credit.firstName }
+						${credit.lastName }</h2>
+				</div>
 			</div>
 			<div class="content" style="overflow: auto">
 				<div class="col-md-8" style="background-color: #f2f2f2">
@@ -46,40 +43,39 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
+			<div class="col-md-4 col-md-offset-4">
 
 				<c:if test="${not empty plist}">
 
-						<c:forEach var="array" items="${plist}">
-											<form action="/UNSWBook/profileController" method="post">
-						
+					<c:forEach var="array" items="${plist}">
+						<form action="/UNSWBook/profileController" method="post">
+
 							<c:set var="pid" scope="session" value="${array[2]}" />
 							<div class="panel panel-success">
 								<div class="panel-heading">
 									<c:out value="${array[1]}" />
 								</div>
 								<div class="panel-body">
-									<input class="form-control" type="text" name="bodyContent" 
+									<input class="form-control" type="text" name="bodyContent"
 										value="<c:out value="${array[0]}" />" disabled
 										style="cursor: default">
 								</div>
 								<div class="panel-footer">
-									<button type="submit" class="btn btn-danger btn-xs" 
+									<button type="submit" class="btn btn-danger btn-xs"
 										name="btn-deletepost" value="<c:out value = "${pid}"/>">
 										Delete</button>
-									
-									<button type="submit" class="btn btn-danger btn-xs" 
-										name="btn-editpost" value="<c:out value = "${pid}"/>" >Edit</button>
-									
+
+									<button type="submit" class="btn btn-danger btn-xs"
+										name="btn-editpost" value="<c:out value = "${pid}"/>">Edit</button>
+									<span style="float: right" class="glyphicon glyphicon-thumbs-up"> <c:out
+											value="${array[3]}" /></span>
 								</div>
 							</div>
-							</form>
-						</c:forEach>
-					
-
+						</form>
+					</c:forEach>
 				</c:if>
 			</div>
 		</div>
+	</div>
 </body>
 </html>

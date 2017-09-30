@@ -38,7 +38,7 @@ public class profileController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		Credit c = (Credit) request.getSession().getAttribute("credit");
+		UsersPojo c = (UsersPojo) request.getSession().getAttribute("credit");
 		List<Object[]> p = null;
 		String nextpage = "";
 		if (request.getParameter("btn-post")!=null) {
@@ -46,7 +46,7 @@ public class profileController extends HttpServlet {
 				
 			
 			String content = request.getParameter("textareapost");
-			new PostData().createPost(content, c.getUsername());
+			new PostData().createPost(content, c.getUserName());
 			nextpage = "index.jsp";
 			//request.getSession().setAttribute("plist", p);
 			}
@@ -80,7 +80,7 @@ public class profileController extends HttpServlet {
 			
 		}
 
-		p = new PostData().getProfilePost(c.getUsername());
+		p = new PostData().getProfilePost(c.getUserName());
 
 
 	//request.getRequestDispatcher("/loggedin/index.jsp").forward(request, response);
