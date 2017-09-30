@@ -1,17 +1,19 @@
 package edu.unsw.comp9321;
 //kjh
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Credit {
+public class Credit implements Serializable{
 	private String username;
 	private boolean authorized;
 	private String firstName;
 	private String lastName;
-	private byte[] profilePic;
+	private String profilePic;
 	private String civilStatus;
 	private Date dob;
 	private String gender;
+	private String email;
 	
 	public Credit(String username, boolean authorized) {
 		this.username = username;
@@ -19,7 +21,7 @@ public class Credit {
 	}
 	
 	public Credit(String username, boolean authorized, Date dob, String gender,
-			String firstname, String lastname, byte[] profilepic, String civilstatus ) {
+			String firstname, String lastname, String profilepic, String civilstatus, String email ) {
 	this.username = username;
 	this.authorized = authorized;
 	this.firstName = firstname;
@@ -28,6 +30,7 @@ public class Credit {
 	this.civilStatus = civilstatus;
 	this.dob = dob;
 	this.gender = gender;
+	this.email = email;
 	}
 
 	public String getFirstName() {
@@ -46,11 +49,11 @@ public class Credit {
 		this.lastName = lastName;
 	}
 
-	public byte[] getProfilePic() {
+	public String getProfilePic() {
 		return profilePic;
 	}
 
-	public void setProfilePic(byte[] profilePic) {
+	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
 	}
 
@@ -80,6 +83,14 @@ public class Credit {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setUsername(String username) {

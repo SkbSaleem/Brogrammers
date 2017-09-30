@@ -38,8 +38,8 @@ public class LoggedinFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		Credit authenticated = (Credit) request.getSession().getAttribute("credit");
-		if(authenticated == null || !authenticated.isAuthorized()) {
+		UsersPojo authenticated = (UsersPojo) request.getSession().getAttribute("credit");
+		if(authenticated == null) {
 			System.out.println(request.getContextPath());
 			response.sendRedirect(request.getContextPath()+"/login.jsp?unauthorized=true");
 		}

@@ -52,7 +52,7 @@
 				action="AuthenticationServlet?param=create">
 				<fieldset>
 					<legend class="legend">Create New User</legend>
-					<c:if test="${exists eq true}">
+					<c:if test="${param.exists eq true}">
 						<h3 class="filtererror">That username already exists.</h3>
 					</c:if>
 					<div class="form-group">
@@ -68,8 +68,8 @@
 						<label class="col-md-4 control-label" for="password">Password</label>
 						<div class="col-md-5">
 							<input id="password" name="password" type="password"
-								placeholder="" class="form-control input-md" required="required">
-							<span class="help-block">Minimum 8 characters</span>
+								placeholder="Password" class="form-control input-md"
+								required="required">
 						</div>
 					</div>
 
@@ -106,8 +106,8 @@
 						<label class="col-md-4 control-label" for="gender">Gender</label>
 						<div class="col-md-4">
 							<label class="radio-inline" for="gendermale"> <input
-								type="radio" name="gender" id="gendermale" value="M">
-								Male
+								type="radio" name="gender" id="gendermale" value="M"
+								required="required"> Male
 							</label> <label class="radio-inline" for="genderfemale"> <input
 								type="radio" name="gender" id="genderfemale" value="F">
 								Female
@@ -132,7 +132,9 @@
 						<label class="col-md-4 control-label" for="civilstatus">Civil
 							status</label>
 						<div class="col-md-5">
-							<select id="civilstatus" name="civilstatus" class="form-control">
+							<select id="civilstatus" name="civilstatus" class="form-control"
+								required="required">
+								<option disabled="disabled" selected="selected" value="">Choose new civil status</option>
 								<option>Single</option>
 								<option>Married</option>
 								<option>In a relationship</option>

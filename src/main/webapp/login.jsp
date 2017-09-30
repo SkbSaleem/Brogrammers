@@ -22,28 +22,25 @@
 				action="AuthenticationServlet?param=login">
 				<fieldset>
 					<legend class="legend">Log In</legend>
-					<c:if test="${param.unauthorized eq true}">
-						<h3 class="filtererror">You are not authorized to view that
-							page. Please log in.</h3>
+			<c:if test="${param.unauthorized eq true}">
+						<h3 class="filtererror" style="color:red;">You are not authorized to view that page. Please sign in with a valid user or confirm your e-mail address.</h3>
 					</c:if>
-					<c:if test="${loginfailed eq true}">
-						<h3 class="filtererror">Wrong username or password. Please
-							try again.</h3>
+					<c:if test="${param.loginfailed ne null}">
+						<h3 class="filtererror" style="color:red;">Your username or password is incorrect.</h3>
 					</c:if>
-
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="lastname">Username</label>
+						<label class="col-md-4 control-label" for="username">Username</label>
 						<div class="col-md-5">
-							<input type="text" name="username" placeholder="Username"
-								required="required" />
+							<input type="text" id="username" name="username" placeholder="Username"
+								class="form-control input-md" required="required" />
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="lastname">Password</label>
+						<label class="col-md-4 control-label" for="password">Password</label>
 						<div class="col-md-5">
-							<input type="password" name="password" placeholder="Password"
-								required="required" />
+							<input type="password" id="password" name="password" placeholder="Password"
+								class="form-control input-md" required="required" />
 						</div>
 					</div>
 
@@ -62,7 +59,6 @@
 								a user yet? Register here.</a>
 						</div>
 					</div>
-
 				</fieldset>
 			</form>
 		</div>

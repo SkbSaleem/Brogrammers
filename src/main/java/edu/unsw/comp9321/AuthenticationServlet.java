@@ -14,6 +14,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 /**
  * Servlet implementation class AuthenticationServlet
  */
@@ -33,21 +35,23 @@ public class AuthenticationServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nextPage = "";
-		if(request.getParameter("param").equals("logout")) {
-			request.getSession().invalidate();
-			nextPage = "login.jsp";
+		if(request.getParameter("param")!=null) {
+			if(request.getParameter("param").equals("logout"))
+				//HibernateHelper.getSessionFactory().close();
+				request.getSession().invalidate();
+				nextPage = "login.jsp";
 		}
 		
 		if(request.getParameter("token")!=null) {
 			
-			Credit credit = new UsersData().confirmUser(request.getParameter("token"));
-			request.getSession().setAttribute("credit", credit);
-			if(credit.isAuthorized()) {
-				nextPage = "/loggedin/index.jsp";
+			UsersPojo credit = new UsersData().confirm(request.getParameter("token"));
+			if(credit!=null) {
+				request.getSession().setAttribute("credit", credit);
+				request.getSession().setAttribute("convertedProfilepic", Base64.encode(credit.getProfilePic()).toString());
+				nextPage = "loggedin/index.jsp";
 			}
 			else {
-				request.setAttribute("loginfailed", true);
-				nextPage = "login.jsp";
+				nextPage = "login.jsp?confirmed=false";
 			}
 		}
 		response.sendRedirect(request.getContextPath()+"/"+nextPage);
@@ -98,19 +102,22 @@ public class AuthenticationServlet extends HttpServlet {
 		if(param.equals("login")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			Credit isAuthenticated = new UsersData().authenticateUser(username, password);
-			if(isAuthenticated.isAuthorized()) {
-				System.out.println("test");
-				request.getSession().setAttribute("credit", isAuthenticated);
-				nextPage = "loggedin/index.jsp";
-			}
+			UsersPojo authenticated = new UsersData().authenticate(username, password);
+			if(authenticated!=null) {
+				if(authenticated.isBanned()==true) {
+					nextPage = "login.jsp?unauthorized=true";
+				}
+				else {
+					request.getSession().setAttribute("credit", authenticated);
+					request.getSession().setAttribute("convertedProfilepic", Base64.encode(authenticated.getProfilePic()).toString());
+					request.getSession().setAttribute("plist", new PostData().getProfilePost(authenticated.getUserName()));
+					nextPage = "loggedin/index.jsp";
+				}
+				}
 			else {
-				request.setAttribute("loginfailed", true);
-				System.out.println("test");
-				nextPage = "login.jsp?unauthorized=true";
+				nextPage = "login.jsp?loginfailed";
 			}
 		}
-		System.out.println(request.getContextPath());
 		response.sendRedirect(request.getContextPath()+"/"+nextPage);
 	}
 }
