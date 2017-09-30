@@ -1,7 +1,7 @@
+<html>
 <%@page import="edu.unsw.comp9321.PostPojo"%>
 <%@page import="edu.unsw.comp9321.PostData"%>
 <%@ page import="java.util.*"%>
-<html>
 <%@page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="header.html"%>
@@ -69,6 +69,7 @@
 										name="btn-editpost" value="<c:out value = "${pid}"/>">Edit</button>
 									<span style="float: right" class="glyphicon glyphicon-thumbs-up"> <c:out
 											value="${array[3]}" /></span>
+									<input type="hidden" name="content" value="${array[0]}">
 								</div>
 							</div>
 						</form>

@@ -20,7 +20,7 @@
 <div class="form-group">
       <h2 class="text-center">Edit Content</h2>
   <textarea class="form-control" rows="3" id="comment"
-								name="editedpost" style="resize: none"></textarea>
+								name="editedpost" style="resize: none">${content}</textarea>
   <button type="submit" name="btn-submitchanges" value="${param.postID}" class="btn btn-primary btn btn-sm">Submit</button>
 </div>
 </div>

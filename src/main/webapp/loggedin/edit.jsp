@@ -51,7 +51,7 @@
 		<div class="row">
 			<!-- left column -->
 			<form id="fileupload" enctype="multipart/form-data"
-				action="/UNSWBook/ProfileServlet?param=newprofilepic" method="post">
+				action="/UNSWBook/EditUserServlet?param=newprofilepic" method="post">
 				<div class="col-md-3">
 					<div class="text-center">
 						<img src="data:image/jpg;base64,${convertedProfilepic }"
@@ -65,7 +65,7 @@
 			</form>
 
 			<form class="form-horizontal"
-				action="/UNSWBook/ProfileServlet?param=edit" method="post">
+				action="/UNSWBook/EditUserServlet?param=edit" method="post">
 				<fieldset>
 					<h1 class="filtererror" style="font-size: 25px;">Edit Profile</h1>
 

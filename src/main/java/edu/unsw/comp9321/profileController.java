@@ -63,6 +63,7 @@ public class profileController extends HttpServlet {
 		if(request.getParameter("btn-editpost")!=null) {
 			int pid = Integer.parseInt(request.getParameter("btn-editpost"));
 			System.out.println(pid);
+			request.getSession().setAttribute("content", request.getParameter("content"));
 			//System.out.println(request.getParameter("editcontent"));
 			//System.out.println(request.getParameter("bodyContent"));
 

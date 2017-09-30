@@ -94,14 +94,7 @@ public class PostData {
 				Query query = session.createSQLQuery("select Content, TimePosted, PostId, Likes "
 						+ "from posts where UserName = :username").setParameter("username", username);
 				List <Object[]> querylist = query.list();
-				for (Object [] objects : querylist) {
-					//System.out.println(objects[0].toString() + " - " + objects[1].toString());
-					
-				}
-				
-				
-				
-			   tx.commit();
+				tx.commit();
 			   Collections.reverse(querylist);
 			   return querylist;
 
