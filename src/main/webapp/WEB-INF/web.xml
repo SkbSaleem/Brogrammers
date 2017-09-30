@@ -21,10 +21,10 @@
 		<servlet-class>edu.unsw.comp9321.AuthenticationServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>ProfileServlet</servlet-name>
-		<display-name>ProfileServlet</display-name>
+		<servlet-name>EditUserServlet</servlet-name>
+		<display-name>EditUserServlet</display-name>
 		<description></description>
-		<servlet-class>edu.unsw.comp9321.ProfileServlet</servlet-class>
+		<servlet-class>edu.unsw.comp9321.EditUserServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>profileController</servlet-name>
@@ -41,8 +41,8 @@
 		<url-pattern>/confirm</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>ProfileServlet</servlet-name>
-		<url-pattern>/ProfileServlet</url-pattern>
+		<servlet-name>EditUserServlet</servlet-name>
+		<url-pattern>/EditUserServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>profileController</servlet-name>
