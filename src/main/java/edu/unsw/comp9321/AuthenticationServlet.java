@@ -110,9 +110,10 @@ public class AuthenticationServlet extends HttpServlet {
 				else {
 					request.getSession().setAttribute("credit", authenticated);
 					request.getSession().setAttribute("convertedProfilepic", Base64.encode(authenticated.getProfilePic()).toString());
+					request.getSession().setAttribute("plist", new PostData().getProfilePost(authenticated.getUserName()));
 					nextPage = "loggedin/index.jsp";
 				}
-			}
+				}
 			else {
 				nextPage = "login.jsp?loginfailed";
 			}
