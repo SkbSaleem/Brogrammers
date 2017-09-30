@@ -2,13 +2,19 @@ package edu.unsw.comp9321;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 @Table(name = "users")
@@ -50,11 +56,11 @@ public class UsersPojo implements Serializable{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Blob getProfilePic() {
+	public byte[] getProfilePic() {
 		return profilePic;
 	}
-	public void setProfilePic(Blob profilePic) {
-		this.profilePic = profilePic;
+	public void setProfilePic(byte[] bytes) {
+		this.profilePic = bytes;
 	}
 	public String getCivilStatus() {
 		return civilStatus;
@@ -99,7 +105,7 @@ public class UsersPojo implements Serializable{
 	@Column(name="lastName")
 	private String lastName;
 	@Column(name="profilePicture")
-	private Blob profilePic;
+	private byte[] profilePic;
 	@Column(name="civilStatus")
 	private String civilStatus;
 	@Column(name="banned")

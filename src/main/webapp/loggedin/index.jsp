@@ -6,12 +6,11 @@
 <body>
 	<h2>Welcome ${credit.firstName } ${credit.lastName }</h2>
 
-
 	<div class="container">
 		<div class="row">
 			<div class="col-md-3">
 				<div>
-				<img src="data:image/jpg;base64,${credit.profilePic }"
+				<img src="data:image/jpg;base64,${convertedProfilepic }"
 					class="avatar img-circle" alt="avatar"
 					style="width: 100px; height: 100px;"></div>
 					<div>  

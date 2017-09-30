@@ -25,11 +25,6 @@
 <body>
 
 	<script type="text/javascript">
-
-	$document.getElementById("upload").onchange = function() {
-	    document.getElementById("fileupload").submit();
-	};
-	
 		$(function() {
 			$('input[name="dob"]').daterangepicker({
 				singleDatePicker : true,
@@ -54,25 +49,33 @@
 	<div class="container">
 		<div class="row">
 			<!-- left column -->
-			<form id="fileupload" enctype="multipart/form-data" action="EditUserServlet?param=newprofilepic" method="post">
+			<form id="fileupload" enctype="multipart/form-data" action="/UNSWBook/ProfileServlet?param=newprofilepic" method="post">
 			<div class="col-md-3">
 				<div class="text-center">
-					<img src="//placehold.it/100" class="avatar img-circle"
-						alt="avatar">
+					<img src="data:image/jpg;base64,${convertedProfilepic }" class="avatar img-circle"
+						style="width: 100px; height: 100px;" alt="avatar">
 					<h6>Upload a different photo...</h6>
-
-					<input type="file" id="upload" name="upload" class="form-control">
+					<input type="file" name="upload" onchange="this.form.submit();" class="form-control">
 				</div>
 			</div>
 			</form>
 			
-			<form class="form-horizontal" action="EditUserServlet?param=edit" method="post">
+			<form class="form-horizontal" action="/UNSWBook/ProfileServlet?param=edit" method="post">
 				<fieldset>
 					<h1 class="filtererror" style="font-size: 25px;">Edit Profile</h1>
+					
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Password:</label>
+						<div class="col-lg-8">
+							<input class="form-control" type="password" name="password"
+								placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+						</div>
+					</div>
+					
 					<div class="form-group">
 						<label class="col-lg-3 control-label">First name:</label>
 						<div class="col-lg-8">
-							<input class="form-control" type="text"
+							<input class="form-control" type="text" name="firstname"
 								placeholder="${credit.firstName }">
 						</div>
 					</div>
@@ -80,7 +83,7 @@
 					<div class="form-group">
 						<label class="col-lg-3 control-label">Last name:</label>
 						<div class="col-lg-8">
-							<input class="form-control" type="text"
+							<input class="form-control" type="text" name="lastname"
 								placeholder="${credit.lastName}">
 						</div>
 					</div>
@@ -88,8 +91,8 @@
 					<div class="form-group">
 						<label class="col-lg-3 control-label">Email:</label>
 						<div class="col-lg-8">
-							<input class="form-control" type="text"
-								placeholder="Change to credit.email">
+							<input class="form-control" type="text" name="mail"
+								placeholder="${credit.email }">
 						</div>
 					</div>
 
@@ -131,25 +134,15 @@
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-3 control-label">Password:</label>
-						<div class="col-md-8">
-							<input class="form-control" type="password"
-								placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
-						</div>
-					</div>
-
-					<div class="form-group">
 						<label class="col-md-3 control-label"></label>
 						<div class="col-md-8">
-							<input type="button" class="btn btn-warning" value="Save Changes">
+							<input type="submit" class="btn btn-warning" value="Save Changes">
 							<span></span> <input type="reset" class="btn btn-default"
 								value="Cancel">
 						</div>
 					</div>
 				</fieldset>
-
-
-			</form>
+				</form>
 		</div>
 	</div>
 	<hr>

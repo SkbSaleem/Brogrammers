@@ -9,7 +9,7 @@
         <property name="hibernate.connection.password">Brogrammers</property>
         <property name="hibernate.connection.url">jdbc:mysql://unswbookdb.cfsca2aleihi.ap-southeast-2.rds.amazonaws.com:3306/unswbookdb</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        
+        <property name="show_sql">true</property>
         <mapping class="edu.unsw.comp9321.UsersPojo" />
     </session-factory>
 </hibernate-configuration>

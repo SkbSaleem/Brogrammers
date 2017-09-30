@@ -1,15 +1,18 @@
 package edu.unsw.comp9321;
 
-import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.persistence.PersistenceException;
@@ -25,11 +28,9 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
-import java.sql.Blob;
-
 import edu.unsw.comp9321.HibernateHelper;
 
-public class UsersData {
+public class UsersData implements Serializable {
 	HibernateHelper hh = new HibernateHelper();
 	
 	public void createUser(HashMap items, HttpServletRequest request) {
@@ -49,31 +50,30 @@ public class UsersData {
 			 user.setDOB(new Date(date.getTime()));
 		} catch (ParseException e1) {
 			session.close();
+			hh.close();
 			e1.printStackTrace();
 		}
 		user.setCivilStatus(items.get("civilstatus").toString());
 		user.setTimeCreated(new Timestamp(System.currentTimeMillis()));
 		//Banned initialized to true because the user needs to confirm the email before logging in
 		user.setBanned(true);
-		String token = returnUniqueToken(generateToken());
+		String token = returnUniqueToken();
 		user.setUrl(token);
-		JavaMail.sendEmail(items.get("email").toString(), token);
-		
         user.setEmail(items.get("email").toString());
 		byte[] bytes;
 		FileItem file = (FileItem) items.get("profilepicture");
 		try {
 			InputStream is = file.getInputStream();
 			bytes = IOUtils.toByteArray(is);
-			Blob blob = Hibernate.getLobCreator(session).createBlob(bytes);
-			user.setProfilePic(blob);
+			user.setProfilePic(bytes);
 		} catch (IOException e) {
-			//TODO create default Blob image here in case of error
+			//TODO create default  image here in case of error
 			session.close();
 		}
 		try {
 			session.persist(user);
 			tt.commit();
+			JavaMail.sendEmail(items.get("email").toString(), token);
 		}
 		catch(PersistenceException | ConstraintViolationException f) {
 			request.setAttribute("exists", true);
@@ -82,49 +82,7 @@ public class UsersData {
 			session.close();
 		}
 	}
-	
-	public Credit authenticateUser(String username, String password) {
-		Session session = hh.getSessionFactory().openSession();
-		Transaction tt = session.beginTransaction();
-		//TODO Change to WHERE statement
-		List userNames = session.createSQLQuery("SELECT UserName from users").list();
-		for(Object user:session.createSQLQuery("SELECT UserName from users").list()) {
-			if(user.toString().equals(username)) {
-				//This should handle any potential SQL injection
-				Query passwordquery = session.createSQLQuery("SELECT * from users WHERE UserName=:user").setParameter("user", username);
-				List<Object[]> userDetails = passwordquery.list();
-				if(userDetails.get(0)[1].equals(password) && Boolean.parseBoolean(userDetails.get(0)[8].toString())==false) {
-					session.close();
-					System.out.println("Work work work work work work");
-					//byte [] b = (byte[]) userDetails.get(0)[6];
-					//String encodedImage= Base64.encode(b);
-					return new Credit(username, true, 
-							(Date)userDetails.get(0)[2], 
-							userDetails.get(0)[3].toString(),
-							 userDetails.get(0)[4].toString(), userDetails.get(0)[5].toString(), 
-							 Base64.encode((byte[]) userDetails.get(0)[6]).toString(),
-							 userDetails.get(0)[7].toString());
-				}
-				session.close();
-				return new Credit(username,false);
-			}
-		}
-		session.close();
-		return new Credit(username,false);
-	}
-	
-	public Credit confirmUser(String token) {
-		Session session = hh.getSessionFactory().openSession();
-		Transaction tt = session.beginTransaction();
-		String newToken = returnUniqueToken(generateToken());
-		String username = session.createSQLQuery("SELECT UserName from users WHERE URL=:token").setParameter("token", newToken).uniqueResult().toString();
-		List<Object[]> userDetails = session.createSQLQuery("SELECT * from users WHERE UserName = :username").setParameter("username", username).list();
-		session.createSQLQuery("UPDATE users SET URL=:token, Banned=0 WHERE UserName=:username").setParameter("username", username).setParameter("token", newToken);
-		session.close();
-		return new Credit(username, true, (Date) userDetails.get(0)[2], userDetails.get(0)[3].toString(),
-				 userDetails.get(0)[4].toString(),  userDetails.get(0)[5].toString(), Base64.encode((byte[]) userDetails.get(0)[6]).toString(),  userDetails.get(0)[7].toString());
-	}
-	
+		
 	private String generateToken() {
         char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -134,19 +92,104 @@ public class UsersData {
             sb.append(c);
         }
         String output = sb.toString();
-        System.out.println(output);
         return output;
    
     }
 	
-	private String returnUniqueToken(String token) {
+	private String returnUniqueToken() {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
-		List urlQuery = session.createSQLQuery("SELECT URL FROM users WHERE URL=:token").setParameter("token", token).list();
+		String token = generateToken();
+		List urlQuery = session.createQuery("from UsersPojo as user where user.url = :token").setParameter("token", token).list();
+		//List urlQuery = session.createSQLQuery("SELECT URL FROM users WHERE URL=:token").setParameter("token", token).list();
 		while(!urlQuery.isEmpty()) {
 			token = generateToken();
-			urlQuery = session.createSQLQuery("SELECT URL FROM users WHERE URL=:token").setParameter("token", token).list();
+			urlQuery = session.createQuery("from UsersPojo as user where user.url = :token").setParameter("token", token).list();
 		}
+		//tt.commit();
+		session.close();
 		return token;
+	}
+	
+	public void updateProfilePicture(FileItem fi, HttpServletRequest request) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = session.beginTransaction();
+		UsersPojo user = (UsersPojo) request.getSession().getAttribute("credit");
+		try {
+			InputStream is = fi.getInputStream();
+			byte[] bytes = IOUtils.toByteArray(is);
+			user.setProfilePic(bytes);
+			}
+		catch(IOException e) {
+			
+		}
+		finally {
+			session.merge(user);
+			tt.commit();
+			session.close();
+		}
+	}
+	
+	public void updateUserInfo(Map<String, String> fields, HttpServletRequest request) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = session.beginTransaction();
+		UsersPojo user = (UsersPojo) request.getSession().getAttribute("credit");
+		if(fields.containsKey("mail")) {
+			user.setEmail(fields.get("mail").toString());
+		}
+		if(fields.containsKey("firstname")) {
+			user.setFirstName(fields.get("firstname").toString());
+		}
+		if(fields.containsKey("lastname")) {
+			user.setLastName(fields.get("lastname").toString());
+		}
+		if(fields.containsKey("gender")) {
+			user.setGender(fields.get("gender").toString());
+		}
+		if(fields.containsKey("civilstatus")) {
+			user.setCivilStatus(fields.get("civilstatus").toString());
+		}
+		if(fields.containsKey("dob")) {
+			DateFormat datePattern = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				 java.util.Date date = datePattern.parse(fields.get("dob").toString());
+				 user.setDOB(new Date(date.getTime()));
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if(fields.containsKey("password")) {
+			user.setPassword(fields.get("password").toString());
+		}
+		session.merge(user);
+		tt.commit();
+		session.close();
+	}
+	
+	public UsersPojo authenticate(String username, String password) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = session.beginTransaction();
+		UsersPojo result = (UsersPojo) session.get(UsersPojo.class, username);
+		tt.commit();
+		session.close();
+		if(result!=null && result.getPassword().equals(password) && result.isBanned()==false) {
+			return result;
+		}
+		return null;
+	}
+	
+	public UsersPojo confirm(String token) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = session.beginTransaction();
+		List result = session.createQuery("from UsersPojo as user where user.url = :token").setParameter("token", token).list();
+		if(result.isEmpty()) {
+			return null;
+		}
+		UsersPojo user = (UsersPojo) result.get(0);
+		user.setUrl(returnUniqueToken());
+		user.setBanned(false);
+		tt.commit();
+		session.close();
+		return user;
 	}
 }
