@@ -37,7 +37,7 @@ public class AuthenticationServlet extends HttpServlet {
 		String nextPage = "";
 		if(request.getParameter("param")!=null) {
 			if(request.getParameter("param").equals("logout"))
-				HibernateHelper.getSessionFactory().close();
+				//HibernateHelper.getSessionFactory().close();
 				request.getSession().invalidate();
 				nextPage = "login.jsp";
 		}
@@ -45,15 +45,13 @@ public class AuthenticationServlet extends HttpServlet {
 		if(request.getParameter("token")!=null) {
 			
 			UsersPojo credit = new UsersData().confirm(request.getParameter("token"));
-			//Credit credit = new UsersData().confirmUser(request.getParameter("token"));
 			if(credit!=null) {
 				request.getSession().setAttribute("credit", credit);
 				request.getSession().setAttribute("convertedProfilepic", Base64.encode(credit.getProfilePic()).toString());
-				nextPage = "/loggedin/index.jsp";
+				nextPage = "loggedin/index.jsp";
 			}
 			else {
-				request.setAttribute("loginfailed", true);
-				nextPage = "login.jsp";
+				nextPage = "login.jsp?confirmed=false";
 			}
 		}
 		response.sendRedirect(request.getContextPath()+"/"+nextPage);
@@ -106,10 +104,14 @@ public class AuthenticationServlet extends HttpServlet {
 			String password = request.getParameter("password");
 			UsersPojo authenticated = new UsersData().authenticate(username, password);
 			if(authenticated!=null) {
-				System.out.println(authenticated.getProfilePic());
-				request.getSession().setAttribute("credit", authenticated);
-				request.getSession().setAttribute("convertedProfilepic", Base64.encode(authenticated.getProfilePic()).toString());
-				nextPage = "loggedin/index.jsp";
+				if(authenticated.isBanned()==true) {
+					nextPage = "login.jsp?unauthorized=true";
+				}
+				else {
+					request.getSession().setAttribute("credit", authenticated);
+					request.getSession().setAttribute("convertedProfilepic", Base64.encode(authenticated.getProfilePic()).toString());
+					nextPage = "loggedin/index.jsp";
+				}
 			}
 			else {
 				nextPage = "login.jsp?loginfailed";

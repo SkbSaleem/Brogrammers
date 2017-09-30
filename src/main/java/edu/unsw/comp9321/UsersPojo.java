@@ -2,19 +2,13 @@ package edu.unsw.comp9321;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
 @Entity
 @Table(name = "users")

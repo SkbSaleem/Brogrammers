@@ -134,7 +134,7 @@
 						<div class="col-md-5">
 							<select id="civilstatus" name="civilstatus" class="form-control"
 								required="required">
-								<option disabled selected="selected">Choose new civil status</option>
+								<option disabled="disabled" selected="selected" value="">Choose new civil status</option>
 								<option>Single</option>
 								<option>Married</option>
 								<option>In a relationship</option>

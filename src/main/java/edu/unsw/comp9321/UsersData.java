@@ -67,7 +67,6 @@ public class UsersData implements Serializable {
 			bytes = IOUtils.toByteArray(is);
 			user.setProfilePic(bytes);
 		} catch (IOException e) {
-			//TODO create default  image here in case of error
 			session.close();
 		}
 		try {
@@ -100,13 +99,12 @@ public class UsersData implements Serializable {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
 		String token = generateToken();
-		List urlQuery = session.createQuery("from UsersPojo as user where user.url = :token").setParameter("token", token).list();
-		//List urlQuery = session.createSQLQuery("SELECT URL FROM users WHERE URL=:token").setParameter("token", token).list();
+		List urlQuery = session.createQuery("select u from UsersPojo u where u.url = :token").setParameter("token", token).list();
 		while(!urlQuery.isEmpty()) {
 			token = generateToken();
-			urlQuery = session.createQuery("from UsersPojo as user where user.url = :token").setParameter("token", token).list();
+			urlQuery = session.createQuery("select u from UsersPojo u where u.url = :token").setParameter("token", token).list();
 		}
-		//tt.commit();
+		tt.commit();
 		session.close();
 		return token;
 	}
@@ -172,7 +170,7 @@ public class UsersData implements Serializable {
 		UsersPojo result = (UsersPojo) session.get(UsersPojo.class, username);
 		tt.commit();
 		session.close();
-		if(result!=null && result.getPassword().equals(password) && result.isBanned()==false) {
+		if(result!=null && result.getPassword().equals(password)) {
 			return result;
 		}
 		return null;
@@ -181,7 +179,8 @@ public class UsersData implements Serializable {
 	public UsersPojo confirm(String token) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
-		List result = session.createQuery("from UsersPojo as user where user.url = :token").setParameter("token", token).list();
+		List result = session.createQuery("select u from UsersPojo u where u.url = :token").setParameter("token", token).list();
+		System.out.println(result);
 		if(result.isEmpty()) {
 			return null;
 		}

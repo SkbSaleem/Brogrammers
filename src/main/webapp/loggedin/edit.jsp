@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<%@page isELIgnored="false"%>
+<%@ page isELIgnored="false"%>
+<%@ include file="header.html"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -49,21 +50,25 @@
 	<div class="container">
 		<div class="row">
 			<!-- left column -->
-			<form id="fileupload" enctype="multipart/form-data" action="/UNSWBook/ProfileServlet?param=newprofilepic" method="post">
-			<div class="col-md-3">
-				<div class="text-center">
-					<img src="data:image/jpg;base64,${convertedProfilepic }" class="avatar img-circle"
-						style="width: 100px; height: 100px;" alt="avatar">
-					<h6>Upload a different photo...</h6>
-					<input type="file" name="upload" onchange="this.form.submit();" class="form-control">
+			<form id="fileupload" enctype="multipart/form-data"
+				action="/UNSWBook/ProfileServlet?param=newprofilepic" method="post">
+				<div class="col-md-3">
+					<div class="text-center">
+						<img src="data:image/jpg;base64,${convertedProfilepic }"
+							class="avatar img-circle" style="width: 100px; height: 100px;"
+							alt="avatar">
+						<h6>Upload a different photo...</h6>
+						<input type="file" name="upload" onchange="this.form.submit();"
+							class="form-control">
+					</div>
 				</div>
-			</div>
 			</form>
-			
-			<form class="form-horizontal" action="/UNSWBook/ProfileServlet?param=edit" method="post">
+
+			<form class="form-horizontal"
+				action="/UNSWBook/ProfileServlet?param=edit" method="post">
 				<fieldset>
 					<h1 class="filtererror" style="font-size: 25px;">Edit Profile</h1>
-					
+
 					<div class="form-group">
 						<label class="col-lg-3 control-label">Password:</label>
 						<div class="col-lg-8">
@@ -71,7 +76,7 @@
 								placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
 						</div>
 					</div>
-					
+
 					<div class="form-group">
 						<label class="col-lg-3 control-label">First name:</label>
 						<div class="col-lg-8">
@@ -137,12 +142,13 @@
 						<label class="col-md-3 control-label"></label>
 						<div class="col-md-8">
 							<input type="submit" class="btn btn-warning" value="Save Changes">
-							<span></span> <input type="reset" class="btn btn-default"
-								value="Cancel">
+							<span></span> <input type="submit" class="btn btn-warning"
+								value="Back To Profile"> <span></span> <input
+								type="reset" class="btn btn-default" value="Reset">
 						</div>
 					</div>
 				</fieldset>
-				</form>
+			</form>
 		</div>
 	</div>
 	<hr>

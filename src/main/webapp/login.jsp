@@ -23,7 +23,7 @@
 				<fieldset>
 					<legend class="legend">Log In</legend>
 			<c:if test="${param.unauthorized eq true}">
-						<h3 class="filtererror" style="color:red;">You are not authorized to view that page. Please sign in with a valid user.</h3>
+						<h3 class="filtererror" style="color:red;">You are not authorized to view that page. Please sign in with a valid user or confirm your e-mail address.</h3>
 					</c:if>
 					<c:if test="${param.loginfailed ne null}">
 						<h3 class="filtererror" style="color:red;">Your username or password is incorrect.</h3>
