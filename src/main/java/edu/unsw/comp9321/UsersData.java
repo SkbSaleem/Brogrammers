@@ -29,9 +29,10 @@ import edu.unsw.comp9321.HibernateHelper;
 
 public class UsersData {
 	HibernateHelper hh = new HibernateHelper();
+	Session session = null;
 	
 	public void createUser(HashMap items, HttpServletRequest request) {
-		Session session = hh.getSessionFactory().openSession();
+		session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
 		
 		UsersPojo user=new UsersPojo();
@@ -82,7 +83,7 @@ public class UsersData {
 	}
 	
 	public Credit authenticateUser(String username, String password) {
-		Session session = hh.getSessionFactory().openSession();
+		session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
 		//TODO Change to WHERE statement
 		List userNames = session.createSQLQuery("SELECT UserName from users").list();
