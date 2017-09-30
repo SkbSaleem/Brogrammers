@@ -102,6 +102,7 @@ public class AuthenticationServlet extends HttpServlet {
 			if(isAuthenticated.isAuthorized()) {
 				System.out.println("test");
 				request.getSession().setAttribute("credit", isAuthenticated);
+				request.getSession().setAttribute("plist", new PostData().getProfilePost(isAuthenticated.getUsername()));
 				nextPage = "loggedin/index.jsp";
 			}
 			else {

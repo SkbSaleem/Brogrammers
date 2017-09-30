@@ -11,5 +11,7 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         
         <mapping class="edu.unsw.comp9321.UsersPojo" />
+                <mapping class="edu.unsw.comp9321.PostPojo" />
+        
     </session-factory>
 </hibernate-configuration>
