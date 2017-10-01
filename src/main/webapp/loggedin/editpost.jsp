@@ -11,7 +11,7 @@
 <title>Edit Post</title>
 </head>
 <body>
-<h1>Header <c:out value = "${pid}"/></h1>
+<h1>Edit your post</h1>
 <div class="container">
   <div class="row">
 <form action="/UNSWBook/profileController" method ="POST">

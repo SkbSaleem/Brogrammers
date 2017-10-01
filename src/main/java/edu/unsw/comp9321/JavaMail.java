@@ -14,20 +14,10 @@ import javax.mail.internet.MimeMessage;
 public class JavaMail {
 	public static void sendEmail(String to, String url) {
 		
-		// Recipient's email ID needs to be mentioned.
-	     // String to = "christian.trinh@student.unsw.edu.au";
+	      String from = "unswbookvalidation@gmail.com";
+	      final String username = "unswbookvalidation";
+	      final String password = "comp9321";
 	 
-	   // Sender's email ID needs to be mentioned
-	      String from = "unswbookvalidation@gmail.com";//change accordingly
-	      final String username = "unswbookvalidation";//change accordingly
-	      final String password = "comp9321";//change accordingly
-	 
-	      // Assuming you are sending email from localhost
-	      //String host = "localhost";
-	 
-	      
-
-
 	      Properties props = new Properties();
 	      props.put("mail.smtp.auth", "true");
 	      props.put("mail.smtp.starttls.enable", "true");

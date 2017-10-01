@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +36,6 @@ public class AuthenticationServlet extends HttpServlet {
 		String nextPage = "";
 		if(request.getParameter("param")!=null) {
 			if(request.getParameter("param").equals("logout"))
-				//HibernateHelper.getSessionFactory().close();
 				request.getSession().invalidate();
 				nextPage = "login.jsp";
 		}
@@ -48,6 +46,7 @@ public class AuthenticationServlet extends HttpServlet {
 			if(credit!=null) {
 				request.getSession().setAttribute("credit", credit);
 				request.getSession().setAttribute("convertedProfilepic", Base64.encode(credit.getProfilePic()).toString());
+				request.getSession().setAttribute("plist", new PostData().getProfilePost(credit.getUserName()));
 				nextPage = "loggedin/index.jsp";
 			}
 			else {
@@ -67,11 +66,6 @@ public class AuthenticationServlet extends HttpServlet {
 		if(param.equals("create")) {
 			nextPage = "confirm.jsp";
 			try {
-				if (! ServletFileUpload.isMultipartContent(request)) {
-					System.out.println("sorry. No file uploaded");
-					return;
-				}
-
 				// Apache Commons-Fileupload library classes
 				DiskFileItemFactory factory = new DiskFileItemFactory();
 				ServletFileUpload sfu  = new ServletFileUpload(factory);
@@ -118,6 +112,22 @@ public class AuthenticationServlet extends HttpServlet {
 				nextPage = "login.jsp?loginfailed";
 			}
 		}
+		
+		if(param.equals("admin")) {
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			AdminPojo authenticated = new UsersData().authenticateAdmin(username,password);
+			List<UsersPojo> users = new UsersData().getAllUsers();
+			if(authenticated!=null) {
+				nextPage = "admin/admin.jsp";
+				request.getSession().setAttribute("admin", authenticated);
+				request.getSession().setAttribute("users", users);
+			}
+			else {
+				nextPage = "adminlogin.jsp?loginfailed";
+			}
+		}
+		
 		response.sendRedirect(request.getContextPath()+"/"+nextPage);
 	}
 }

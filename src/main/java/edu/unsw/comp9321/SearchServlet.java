@@ -43,29 +43,9 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
-		
-		
-		
 		String search = request.getParameter("search");
-		
-		
-		
 		Search searchReturn = new Search();
-		List<Object[]> result = searchReturn.searchResult(search);
-		
-		ArrayList<String> test = new ArrayList<String>();  
-		
-		for (int i = 0; i<result.size(); i++) {
-			
-			test.add((String) result.get(i)[4]);
-			test.add((String) result.get(i)[5]);
-			
-			
-			
-		}
-//		String test = (String) result.get(0)[1];
-		System.out.println("PRINT ING G" + test);
+		List<UsersPojo> result = searchReturn.searchResult(search);
 		
 		if (!result.isEmpty()) {
 			
@@ -75,8 +55,7 @@ public class SearchServlet extends HttpServlet {
 			
 			UsersPojo credit = (UsersPojo) request.getSession().getAttribute("credit");
 			String token = credit.getUrl();
-			System.out.println(token);
-			 request.setAttribute("test", test);
+			 request.setAttribute("result", result);
 			 request.setAttribute("token", token);
 			
 			 request.getRequestDispatcher("loggedin/results.jsp").forward(request, response);
@@ -87,11 +66,6 @@ public class SearchServlet extends HttpServlet {
 			request.getRequestDispatcher("loggedin/fail.jsp").forward(request, response);
 			
 		}
-		
-	
-		
-		
-		
 	}
 
 }
