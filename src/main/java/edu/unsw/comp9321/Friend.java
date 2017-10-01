@@ -40,7 +40,6 @@ public class Friend {
 			String test1 = userDetails.get(i)[0].toString();
 			String test2 = userDetails.get(i)[1].toString();
 			
-			System.out.println("test1 " + test1 + "user1 " + user1 +  "test2 " + test2 + "user2 " + user2);
 			if ((test1.equals(user1) && test2.equals(user2)) || (test1.equals(user2) && test2.equals(user1))){
 				
 				System.out.println("DUPLICATE");

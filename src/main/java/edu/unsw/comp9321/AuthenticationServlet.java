@@ -37,11 +37,11 @@ public class AuthenticationServlet extends HttpServlet {
 		if(request.getParameter("param")!=null) {
 			if(request.getParameter("param").equals("logout"))
 				request.getSession().invalidate();
-				nextPage = "login.jsp";
+			nextPage = "login.jsp";
 		}
-		
+
 		if(request.getParameter("token")!=null) {
-			
+
 			UsersPojo credit = new UsersData().confirm(request.getParameter("token"));
 			if(credit!=null) {
 				request.getSession().setAttribute("credit", credit);
@@ -72,7 +72,7 @@ public class AuthenticationServlet extends HttpServlet {
 
 				List fileitems = sfu.parseRequest(request);
 				HashMap items = new HashMap();
-				
+
 				Iterator<FileItem> iter = fileitems.iterator();
 				while(iter.hasNext()) {
 					FileItem item = iter.next();
@@ -92,7 +92,7 @@ public class AuthenticationServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(param.equals("login")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -107,12 +107,12 @@ public class AuthenticationServlet extends HttpServlet {
 					request.getSession().setAttribute("plist", new PostData().getProfilePost(authenticated.getUserName()));
 					nextPage = "loggedin/index.jsp";
 				}
-				}
+			}
 			else {
 				nextPage = "login.jsp?loginfailed";
 			}
 		}
-		
+
 		if(param.equals("admin")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -127,7 +127,7 @@ public class AuthenticationServlet extends HttpServlet {
 				nextPage = "adminlogin.jsp?loginfailed";
 			}
 		}
-		
+
 		response.sendRedirect(request.getContextPath()+"/"+nextPage);
 	}
 }

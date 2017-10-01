@@ -64,7 +64,7 @@
 											<figure class="figure">
 												<img src="data:image/jpg;base64,${array.image}"
 													class="figure-img img-fluid rounded center-block"
-													style="width: 500px;">
+													style="height: 80%; width: auto;">
 												<figcaption class="figure-caption text-center">${array.content}</figcaption>
 											</figure>
 

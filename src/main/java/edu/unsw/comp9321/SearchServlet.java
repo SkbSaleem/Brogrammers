@@ -45,7 +45,8 @@ public class SearchServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String search = request.getParameter("search");
 		Search searchReturn = new Search();
-		List<UsersPojo> result = searchReturn.searchResult(search);
+		UsersPojo user = (UsersPojo) request.getSession().getAttribute("credit");
+		List<UsersPojo> result = searchReturn.searchResult(search, user.getUserName());
 		
 		if (!result.isEmpty()) {
 			

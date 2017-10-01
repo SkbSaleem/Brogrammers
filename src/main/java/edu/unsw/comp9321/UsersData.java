@@ -31,11 +31,11 @@ import edu.unsw.comp9321.HibernateHelper;
 public class UsersData implements Serializable {
 	HibernateHelper hh = new HibernateHelper();
 	Session session = null;
-	
+
 	public void createUser(HashMap items, HttpServletRequest request) {
 		session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
-		
+
 		UsersPojo user=new UsersPojo();
 		user.setUserName(items.get("username").toString());
 		user.setPassword(items.get("password").toString());
@@ -45,8 +45,8 @@ public class UsersData implements Serializable {
 		DateFormat datePattern = new SimpleDateFormat("dd/MM/yyyy");
 
 		try {
-			 java.util.Date date = datePattern.parse(items.get("dob").toString());
-			 user.setDOB(new Date(date.getTime()));
+			java.util.Date date = datePattern.parse(items.get("dob").toString());
+			user.setDOB(new Date(date.getTime()));
 		} catch (ParseException e1) {
 			session.close();
 			hh.close();
@@ -58,7 +58,7 @@ public class UsersData implements Serializable {
 		user.setBanned(true);
 		String token = returnUniqueToken();
 		user.setUrl(token);
-        user.setEmail(items.get("email").toString());
+		user.setEmail(items.get("email").toString());
 		byte[] bytes;
 		FileItem file = (FileItem) items.get("profilepicture");
 		try {
@@ -82,18 +82,18 @@ public class UsersData implements Serializable {
 	}
 
 	private String generateToken() {
-        char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            char c = chars[random.nextInt(chars.length)];
-            sb.append(c);
-        }
-        String output = sb.toString();
-        return output;
-   
-    }
-	
+		char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < 10; i++) {
+			char c = chars[random.nextInt(chars.length)];
+			sb.append(c);
+		}
+		String output = sb.toString();
+		return output;
+
+	}
+
 	private String returnUniqueToken() {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
@@ -107,7 +107,7 @@ public class UsersData implements Serializable {
 		session.close();
 		return token;
 	}
-	
+
 	public void updateProfilePicture(FileItem fi, HttpServletRequest request) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
@@ -116,9 +116,9 @@ public class UsersData implements Serializable {
 			InputStream is = fi.getInputStream();
 			byte[] bytes = IOUtils.toByteArray(is);
 			user.setProfilePic(bytes);
-			}
+		}
 		catch(IOException e) {
-			
+
 		}
 		finally {
 			session.merge(user);
@@ -126,7 +126,7 @@ public class UsersData implements Serializable {
 			session.close();
 		}
 	}
-	
+
 	public void updateUserInfo(Map<String, String> fields, HttpServletRequest request) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
@@ -149,8 +149,8 @@ public class UsersData implements Serializable {
 		if(fields.containsKey("dob")) {
 			DateFormat datePattern = new SimpleDateFormat("dd/MM/yyyy");
 			try {
-				 java.util.Date date = datePattern.parse(fields.get("dob").toString());
-				 user.setDOB(new Date(date.getTime()));
+				java.util.Date date = datePattern.parse(fields.get("dob").toString());
+				user.setDOB(new Date(date.getTime()));
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -162,7 +162,7 @@ public class UsersData implements Serializable {
 		tt.commit();
 		session.close();
 	}
-	
+
 	public UsersPojo authenticate(String username, String password) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
@@ -174,7 +174,7 @@ public class UsersData implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public UsersPojo confirm(String token) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
@@ -189,7 +189,7 @@ public class UsersData implements Serializable {
 		session.close();
 		return user;
 	}
-	
+
 	public AdminPojo authenticateAdmin(String username, String password) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
@@ -200,12 +200,32 @@ public class UsersData implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public List<UsersPojo> getAllUsers(){
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
 		List<UsersPojo> users = (List<UsersPojo>) session.createQuery("from UsersPojo").list();
 		session.close();
 		return users;
+	}
+	public void banUser(String username) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = null;
+		try {
+			tt = session.beginTransaction();
+			UsersPojo user = (UsersPojo) session.get(UsersPojo.class, username);
+			if(!user.isBanned()) {
+				user.setBanned(true);
+				session.merge(user);
+				tt.commit();
+			}
+		}
+		catch(Exception e) {
+			if (tt!=null) tt.rollback();
+			e.printStackTrace(); 
+		}
+		finally {
+			session.close();
+		}
 	}
 }
