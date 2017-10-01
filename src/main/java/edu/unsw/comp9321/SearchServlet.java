@@ -74,9 +74,10 @@ public class SearchServlet extends HttpServlet {
 			//String username = request.getParameter("username");
 			
 			UsersPojo credit = (UsersPojo) request.getSession().getAttribute("credit");
-			String username = credit.getUserName();
-			System.out.println(username);
+			String token = credit.getUrl();
+			System.out.println(token);
 			 request.setAttribute("test", test);
+			 request.setAttribute("token", token);
 			
 			 request.getRequestDispatcher("loggedin/results.jsp").forward(request, response);
 			

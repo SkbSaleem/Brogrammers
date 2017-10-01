@@ -12,6 +12,7 @@
         <property name="show_sql">true</property>
         <mapping class="edu.unsw.comp9321.UsersPojo" />
                 <mapping class="edu.unsw.comp9321.PostPojo" />
+                <mapping class="edu.unsw.comp9321.FriendsPojo" />
         
     </session-factory>
 </hibernate-configuration>

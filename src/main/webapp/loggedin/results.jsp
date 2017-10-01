@@ -70,7 +70,7 @@ ArrayList<String> rlist = (ArrayList<String>)request.getAttribute("test");
          
       <td> <center>  <%= option %> </center> </td>
           
-       <td> <center>  <input type="hidden" name="name" value= <%=option %> ><button type="submit" class="btn btn-primary">Send Friend Request</button></center></td>
+       <td> <center>  <input type="hidden" name="token" value= <c:out value="${token}"/>><button type="submit" class="btn btn-primary">Send Friend Request</button></center></td>
           </tr>
           
            <% ;} %>

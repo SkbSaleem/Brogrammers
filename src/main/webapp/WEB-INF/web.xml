@@ -39,6 +39,19 @@
 		<description></description>
 		<servlet-class>edu.unsw.comp9321.profileController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>FriendRequest</servlet-name>
+		<display-name>FriendRequest</display-name>
+		<description></description>
+		<servlet-class>edu.unsw.comp9321.FriendRequest</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AcceptFriendServlet</servlet-name>
+		<display-name>AcceptFriendServlet</display-name>
+		<description></description>
+		<servlet-class>edu.unsw.comp9321.AcceptFriendServlet</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>AuthenticationServlet</servlet-name>
 		<url-pattern>/AuthenticationServlet</url-pattern>
@@ -61,6 +74,15 @@
 		<servlet-name>profileController</servlet-name>
 		<url-pattern>/profileController</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FriendRequest</servlet-name>
+		<url-pattern>/FriendRequest</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AcceptFriendServlet</servlet-name>
+		<url-pattern>/AcceptFriendServlet</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
