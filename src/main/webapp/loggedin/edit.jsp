@@ -142,8 +142,7 @@
 						<label class="col-md-3 control-label"></label>
 						<div class="col-md-8">
 							<input type="submit" class="btn btn-warning" value="Save Changes">
-							<span></span> <input type="submit" class="btn btn-warning"
-								value="Back To Profile"> <span></span> <input
+							<span></span> <a href="index.jsp" class="btn btn-warning" role="button">Back To Profile</a> <span></span> <input
 								type="reset" class="btn btn-default" value="Reset">
 						</div>
 					</div>

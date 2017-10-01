@@ -13,7 +13,6 @@ public class HibernateHelper
 	}
 	private static SessionFactory create_sessionFactory()
 	{
-		 //SessionFactory sf= Configuration_method().buildSessionFactory();
 		 return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
 	}
 	

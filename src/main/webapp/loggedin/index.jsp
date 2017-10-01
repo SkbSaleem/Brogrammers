@@ -20,7 +20,8 @@
 			</div>
 			<div class="content" style="overflow: auto">
 				<div class="col-md-8" style="background-color: #f2f2f2">
-					<form action="/UNSWBook/profileController" method="POST">
+					<form action="/UNSWBook/profileController"
+						enctype="multipart/form-data" method="POST">
 						<div class="form-group">
 							<label for="comment">Post:</label>
 							<textarea class="form-control" rows="3" id="comment"
@@ -31,9 +32,11 @@
 								<div class="btn-group">
 									<button type="submit" class="btn btn-primary" name="btn-post"
 										value="post">Post</button>
-									<button type="submit" class="btn btn-primary">Upload</button>
 								</div>
-
+								<div class="btn-group">
+									<input type="file" name="image"
+										class="btn btn-primary float-right">
+								</div>
 							</div>
 						</div>
 					</form>
@@ -43,22 +46,35 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
+			<div class="col-md-12">
 
 				<c:if test="${not empty plist}">
 
 					<c:forEach var="array" items="${plist}">
 						<form action="/UNSWBook/profileController" method="post">
 
-							<c:set var="pid" scope="session" value="${array[2]}" />
+							<c:set var="pid" scope="session" value="${array.postid}" />
 							<div class="panel panel-success">
 								<div class="panel-heading">
-									<c:out value="${array[1]}" />
+									<c:out value="${array.timeposted}" />
 								</div>
 								<div class="panel-body">
-									<input class="form-control" type="text" name="bodyContent"
-										value="<c:out value="${array[0]}" />" disabled
-										style="cursor: default">
+									<c:choose>
+										<c:when test="${not empty array.image}">
+											<figure class="figure">
+												<img src="data:image/jpg;base64,${array.image}"
+													class="figure-img img-fluid rounded center-block"
+													style="width: 500px;">
+												<figcaption class="figure-caption text-center">${array.content}</figcaption>
+											</figure>
+
+										</c:when>
+										<c:otherwise>
+											<input class="form-control" type="text" name="bodyContent"
+												value="<c:out value="${array.content}" />" disabled
+												style="cursor: default">
+										</c:otherwise>
+									</c:choose>
 								</div>
 								<div class="panel-footer">
 									<button type="submit" class="btn btn-danger btn-xs"
@@ -67,9 +83,10 @@
 
 									<button type="submit" class="btn btn-danger btn-xs"
 										name="btn-editpost" value="<c:out value = "${pid}"/>">Edit</button>
-									<span style="float: right" class="glyphicon glyphicon-thumbs-up"> <c:out
-											value="${array[3]}" /></span>
-									<input type="hidden" name="content" value="${array[0]}">
+									<span style="float: right"
+										class="glyphicon glyphicon-thumbs-up"> <c:out
+											value="${array.likes}" /></span> <input type="hidden"
+										name="content" value="${array.content}">
 								</div>
 							</div>
 						</form>

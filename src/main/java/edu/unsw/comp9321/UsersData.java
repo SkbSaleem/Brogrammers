@@ -9,10 +9,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.persistence.PersistenceException;
@@ -181,7 +179,6 @@ public class UsersData implements Serializable {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
 		List result = session.createQuery("select u from UsersPojo u where u.url = :token").setParameter("token", token).list();
-		System.out.println(result);
 		if(result.isEmpty()) {
 			return null;
 		}
@@ -191,5 +188,24 @@ public class UsersData implements Serializable {
 		tt.commit();
 		session.close();
 		return user;
+	}
+	
+	public AdminPojo authenticateAdmin(String username, String password) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = session.beginTransaction();
+		AdminPojo result = (AdminPojo) session.get(AdminPojo.class, username);
+		session.close();
+		if(result!=null && result.getPassword().equals(password)) {
+			return result;
+		}
+		return null;
+	}
+	
+	public List<UsersPojo> getAllUsers(){
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = session.beginTransaction();
+		List<UsersPojo> users = (List<UsersPojo>) session.createQuery("from UsersPojo").list();
+		session.close();
+		return users;
 	}
 }
