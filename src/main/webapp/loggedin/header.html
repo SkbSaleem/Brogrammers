@@ -8,11 +8,14 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">UNSWBook</a>
+      <a class="navbar-brand"  href="wall.jsp">UNSWBook</a>
     </div>
     <ul class="nav navbar-nav">
       <li> <a href="index.jsp">Profile</a></li>
-      </li>
+      	
+      
+      <li onclick="wall.submit();"><form name = "wall" method = "POST" action = "/UNSWBook/WallServlet"> </form><font color="#999999">Wall</font></li>
+      
     </ul>
     <ul class="nav navbar-nav navbar-right">
     <li><a href="edit.jsp">Edit Profile</a></li>
