@@ -1,18 +1,30 @@
 package edu.unsw.comp9321;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+
+
+
 /**
  * Servlet implementation class profileController
  */
+@MultipartConfig
+
 public class profileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -41,6 +53,7 @@ public class profileController extends HttpServlet {
 		Credit c = (Credit) request.getSession().getAttribute("credit");
 		List<Object[]> p = null;
 		String nextpage = "";
+		 
 		if (request.getParameter("btn-post")!=null) {
 			if(request.getParameter("btn-post").equals("post")){
 				
@@ -56,13 +69,17 @@ public class profileController extends HttpServlet {
 			System.out.println("button pressed");
 			int pid = Integer.parseInt(request.getParameter("btn-deletepost"));
 			//System.out.println("pid"+pid);
+			System.out.println("Deleted post:" + pid);
+
 			new PostData().deletePost(pid);
 			nextpage = "index.jsp";
 
 		}
 		if(request.getParameter("btn-editpost")!=null) {
 			int pid = Integer.parseInt(request.getParameter("btn-editpost"));
-			System.out.println(pid);
+			request.getSession().setAttribute("content", request.getParameter("btn-editpost"));
+			System.out.println("Edit "+pid +":" + request.getParameter("bodyContent"));
+
 			//System.out.println(request.getParameter("editcontent"));
 			//System.out.println(request.getParameter("bodyContent"));
 

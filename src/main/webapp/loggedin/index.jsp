@@ -4,7 +4,7 @@
 <html>
 <%@page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,6 +16,7 @@
 
 </script>
 	<h2>Welcome ${credit.firstName } ${credit.lastName }</h2>
+
 	</title>
 
 	<div class="container">
@@ -41,7 +42,9 @@
 								<div class="btn-group">
 									<button type="submit" class="btn btn-primary" name="btn-post"
 										value="post">Post</button>
-									<button type="submit" class="btn btn-primary">Upload</button>
+										<label class="btn btn-primary btn-sm">
+     <input type="file" hidden>
+</label>
 								</div>
 
 							</div>
@@ -91,5 +94,6 @@
 				</c:if>
 			</div>
 		</div>
+		
 </body>
 </html>

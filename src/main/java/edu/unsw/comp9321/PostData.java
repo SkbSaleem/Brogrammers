@@ -21,6 +21,8 @@ import org.omg.PortableServer.POA;
 public class PostData {
 	HibernateHelper hh = new HibernateHelper();
 
+
+
 	public void createPost(String content, String username) {
 		Session session = hh.getSessionFactory().openSession();
 		// Transaction tt = session.beginTransaction();
@@ -31,6 +33,7 @@ public class PostData {
 			PostPojo post = new PostPojo();
 			post.setContent(content);
 			post.setLikes(0);
+			
 			// Credit credit = (Credit) request.getSession().getAttribute("credit");
 			// post.setUsername(credit.getUsername());
 			post.setUsername(username);
