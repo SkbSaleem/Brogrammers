@@ -1,5 +1,6 @@
 package edu.unsw.comp9321;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -8,20 +9,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.omg.PortableServer.POA;
 
 public class PostData {
 	HibernateHelper hh = new HibernateHelper();
 
-	public void createPost(String content, String username) {
+	public void createPost(HashMap content, String username) {
 		Session session = hh.getSessionFactory().openSession();
 		//Transaction tt = session.beginTransaction();
 		Transaction tx = null;		
@@ -29,12 +32,16 @@ public class PostData {
 		try {
 			   tx = session.beginTransaction();
 			   PostPojo post = new PostPojo();
-				post.setContent(content);
+				post.setContent(content.get("textareapost").toString());
 				post.setLikes(0);
-				//Credit credit = (Credit) request.getSession().getAttribute("credit");
-				//post.setUsername(credit.getUsername());
 				post.setUsername(username);
 				post.setTimeposted(new Timestamp(System.currentTimeMillis()));
+				if(content.get("image")!=null) {
+					FileItem file = (FileItem) content.get("image");
+					InputStream is = file.getInputStream();
+					byte [] bytes = IOUtils.toByteArray(is);
+					post.setImage(Base64.encode(bytes).toString());
+				}
 				session.persist(post);
 			   tx.commit();
 			}
@@ -84,16 +91,14 @@ public class PostData {
 			}
 
 	}
-	public List<Object[]> getProfilePost(String username) {
+	public List<PostPojo> getProfilePost(String username) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tx=null;	
-		//System.out.println("get posts from " + username);
 
 		try {	
 			   tx = session.beginTransaction();
-				Query query = session.createSQLQuery("select Content, TimePosted, PostId, Likes "
-						+ "from posts where UserName = :username").setParameter("username", username);
-				List <Object[]> querylist = query.list();
+				Query query = session.createQuery("select p from PostPojo p where p.username = :username").setParameter("username", username);
+				List <PostPojo> querylist = query.list();
 				tx.commit();
 			   Collections.reverse(querylist);
 			   return querylist;
@@ -114,7 +119,7 @@ public class PostData {
 		try {
 			   tx = session.beginTransaction();
 			   PostPojo post = new PostPojo();			   
-				Query query = session.createSQLQuery("update posts p set p.Likes = p.Likes + 1" + "where p.PostId = postid").setParameter("postid", postId);
+				Query query = session.createQuery("update posts p set p.Likes = p.Likes + 1 where p.PostId = :postid").setParameter("postid", postId);
 
 				query.executeUpdate();
 			   tx.commit();
@@ -126,8 +131,4 @@ public class PostData {
 			   session.close();
 			}
 	}
-	public void editPost(int postId) {
-		
-	}
-
 }

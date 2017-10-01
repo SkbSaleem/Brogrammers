@@ -46,6 +46,12 @@ public class PostPojo implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	@Id
 	@GeneratedValue
 	private int postid;
@@ -57,7 +63,6 @@ public class PostPojo implements Serializable {
 	private Timestamp timeposted;	
 	@Column(name="UserName")
 	private String username;
-	
-	
-
+	@Column(name="Image")
+	private String image;
 }
