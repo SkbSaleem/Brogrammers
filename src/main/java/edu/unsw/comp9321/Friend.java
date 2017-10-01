@@ -17,24 +17,24 @@ public class Friend {
 	HibernateHelper hh = new HibernateHelper();
 
 	public String acceptRequest(String request_user, HttpServletRequest request){
-		
-		
+
+
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = session.beginTransaction();
-		
+
 		UsersPojo credit = (UsersPojo) request.getSession().getAttribute("credit");
 		String user1 = credit.getUserName();
-		
+
 		String user2 = session.createSQLQuery("select UserName from users where URL=:token").setParameter("token", request_user).uniqueResult().toString();
-		
+
 		Query queryResult = session.createSQLQuery("SELECT User1, User2 from friends");
-				
-		
+
+
 		List<Object[]> userDetails = queryResult.list();
-		
+
 		int flag = 0;
 		if (!userDetails.isEmpty()){
-			
+
 			for (int i=0; i<userDetails.size(); i++){
 				
 			String test1 = userDetails.get(i)[0].toString();
@@ -68,27 +68,27 @@ public class Friend {
 				
 			}
 			
-			
-			
+
 			}
-		
+
+
 		if (flag == 2){
-			
+
 			return "success";
 		}
-			else {
-				
+		else {
+
 			return "fail";
-			}
-			}
-			
-		
-		
-		
-		
-		
-		
-		
+		}
 	}
+
+
+
+
+
+
+
+
+}
 
 

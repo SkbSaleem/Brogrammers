@@ -30,7 +30,7 @@
 		<description></description>
 		<servlet-class>edu.unsw.comp9321.AuthenticationServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>SearchServlet</servlet-name>
 		<display-name>SearchServlet</display-name>
@@ -67,17 +67,29 @@
 		<description></description>
 		<servlet-class>edu.unsw.comp9321.AdminServlet</servlet-class>
 	</servlet>
-	
+	<servlet>
+		<servlet-name>WallServlet</servlet-name>
+		<display-name>WallServlet</display-name>
+		<description></description>
+		<servlet-class>edu.unsw.comp9321.WallServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LikeServlet</servlet-name>
+		<display-name>LikeServlet</display-name>
+		<description></description>
+		<servlet-class>edu.unsw.comp9321.LikeServlet</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>AuthenticationServlet</servlet-name>
 		<url-pattern>/AuthenticationServlet</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>SearchServlet</servlet-name>
 		<url-pattern>/SearchServlet</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>AuthenticationServlet</servlet-name>
 		<url-pattern>/confirm</url-pattern>
@@ -102,7 +114,15 @@
 		<servlet-name>AdminServlet</servlet-name>
 		<url-pattern>/AdminServlet</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+		<servlet-name>WallServlet</servlet-name>
+		<url-pattern>/WallServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LikeServlet</servlet-name>
+		<url-pattern>/LikeServlet</url-pattern>
+	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
