@@ -20,6 +20,13 @@
 		<description></description>
 		<servlet-class>edu.unsw.comp9321.AuthenticationServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>SearchServlet</servlet-name>
+		<display-name>SearchServlet</display-name>
+		<description></description>
+		<servlet-class>edu.unsw.comp9321.SearchServlet</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>EditUserServlet</servlet-name>
 		<display-name>EditUserServlet</display-name>
@@ -36,6 +43,12 @@
 		<servlet-name>AuthenticationServlet</servlet-name>
 		<url-pattern>/AuthenticationServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>SearchServlet</servlet-name>
+		<url-pattern>/SearchServlet</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>AuthenticationServlet</servlet-name>
 		<url-pattern>/confirm</url-pattern>
