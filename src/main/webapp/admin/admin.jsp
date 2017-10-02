@@ -15,11 +15,16 @@
 <title>Admin</title>
 </head>
 <body>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+<button type="submit" class="btn btn-primary">
+  <i class="icon-user icon-white"></i> Sign in
+</button>
 <div class="container">
 		<div class="row">
 			<form method="post"
 				action="AuthenticationServlet?param=admin">
-				<input type="text" id="search" placeholder="Search For User">
+				<input type="text" id ="search" class="form-control" oninput="w3.filterHTML('#table', '.item', this.value)" placeholder="Search for names..">
+				
 				<h2>List of users</h2>
 				<table id="table">
 				<tr>
@@ -28,7 +33,7 @@
 				<th>Username</th>
 				</tr>
 				<c:forEach var="user" items="${users}">
-				<tr>
+				<tr class="item">
 				<td>${user.firstName}</td>
 				<td>${user.lastName}</td>
 				<td>${user.userName}</td>
