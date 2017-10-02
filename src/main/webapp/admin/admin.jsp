@@ -15,15 +15,15 @@
 <title>Admin</title>
 </head>
 <body>
-	<script src="https://www.w3schools.com/lib/w3.js"></script>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
 	<div class="container">
 		<div class="row">
 			<form method="post" action="/UNSWBook/AdminServlet">
 				<input class="form-control" type="text" name="input"
-					oninput="w3.filterHTML(#table,'.item',this.value)"
+					oninput=oninput="w3.filterHTML('#id01', '.item', this.value)"
 					placeholder="Search For User">
 				<h2>List of users</h2>
-				<table id="table">
+				<table id="#id01">
 					<tr>
 						<th>First Name</th>
 						<th>Last Name</th>
