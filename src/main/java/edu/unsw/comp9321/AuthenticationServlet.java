@@ -128,6 +128,11 @@ public class AuthenticationServlet extends HttpServlet {
 			}
 		}
 		
+		if(param.equals("log")) {
+			
+			nextPage = "admin/admin.jsp?success";
+		}
+		
 		response.sendRedirect(request.getContextPath()+"/"+nextPage);
 	}
 }

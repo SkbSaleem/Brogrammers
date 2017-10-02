@@ -16,13 +16,20 @@
 </head>
 <body>
 <script src="https://www.w3schools.com/lib/w3.js"></script>
-<button type="submit" class="btn btn-primary">
-  <i class="icon-user icon-white"></i> Sign in
-</button>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $(".item").click(function() {
+        window.location = $(this).data("href");
+        $('form[name=form]').submit();
+    });
+});
+
+</script>>
+
 <div class="container">
 		<div class="row">
-			<form method="post"
-				action="AuthenticationServlet?param=admin">
+			<form method="post" name="form"
+				action="/UNSWBook/AuthenticationServlet?param=log">
 				<input type="text" id ="search" class="form-control" oninput="w3.filterHTML('#table', '.item', this.value)" placeholder="Search for names..">
 				
 				<h2>List of users</h2>
@@ -31,12 +38,15 @@
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Username</th>
+				<th>Bitton</th>
 				</tr>
 				<c:forEach var="user" items="${users}">
 				<tr class="item">
-				<td>${user.firstName}</td>
-				<td>${user.lastName}</td>
-				<td>${user.userName}</td>
+				<td >${user.firstName}</td>
+				<td >${user.lastName}</td>
+				<td >${user.userName}</td>
+<%-- 				<td><button type="submit" value="${user.userName}" class="btn btn-primary">Button</button></td> --%>
+				
 				</tr>
 				</c:forEach>
 				</table>
