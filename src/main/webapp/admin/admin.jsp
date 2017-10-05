@@ -20,10 +20,10 @@
 		<div class="row">
 			<form method="post" action="/UNSWBook/AdminServlet">
 				<input class="form-control" type="text" name="input"
-					oninput=oninput="w3.filterHTML('#id01', '.item', this.value)"
+					oninput="w3.filterHTML('#id01', '.item', this.value)"
 					placeholder="Search For User">
 				<h2>List of users</h2>
-				<table id="#id01">
+				<table id="#id01" class="table">
 					<tr>
 						<th>First Name</th>
 						<th>Last Name</th>
