@@ -7,16 +7,18 @@
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
+  <form name = "wall" method = "POST" action = "/UNSWBook/WallServlet"> 
     <div class="navbar-header">
-      <a class="navbar-brand"  href="wall.jsp">UNSWBook</a>
+      <a class="navbar-brand"  href="#" onclick="wall.submit();">UNSWBook</a>
     </div>
     <ul class="nav navbar-nav">
       <li> <a href="index.jsp">Profile</a></li>
       	
       
-      <li onclick="wall.submit();"><form name = "wall" method = "POST" action = "/UNSWBook/WallServlet"> </form><font color="#999999">Wall</font></li>
-      
+      <li> <a href="#" onclick="wall.submit();">Wall</a></li>
+
     </ul>
+          </form>
     <ul class="nav navbar-nav navbar-right">
     <li><a href="edit.jsp">Edit Profile</a></li>
       <li><a href="/UNSWBook/AuthenticationServlet?param=logout">Sign Out</a></li>

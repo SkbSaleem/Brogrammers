@@ -56,15 +56,15 @@ public class SearchServlet extends HttpServlet {
 			
 			UsersPojo credit = (UsersPojo) request.getSession().getAttribute("credit");
 			String token = credit.getUrl();
-			 request.setAttribute("result", result);
-			 request.setAttribute("token", token);
+			 request.getSession().setAttribute("result", result);
+			 request.getSession().setAttribute("token", token);
 			
-			 request.getRequestDispatcher("loggedin/results.jsp").forward(request, response);
+			 response.sendRedirect("loggedin/results.jsp");
 			
 		}
 		else {
 			
-			request.getRequestDispatcher("loggedin/fail.jsp").forward(request, response);
+			response.sendRedirect("loggedin/fail.jsp");
 			
 		}
 	}

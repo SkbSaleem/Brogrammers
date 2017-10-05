@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -20,10 +18,10 @@
 		<div class="row">
 			<form method="post" action="/UNSWBook/AdminServlet">
 				<input class="form-control" type="text" name="input"
-					oninput="w3.filterHTML(#table,'.item',this.value)"
+					oninput="w3.filterHTML('#table','.item',this.value)"
 					placeholder="Search For User">
 				<h2>List of users</h2>
-				<table id="table">
+				<table id="table" class="table">
 					<tr>
 						<th>First Name</th>
 						<th>Last Name</th>
@@ -44,7 +42,7 @@
 									name="log" value="${user.userName}">Get User Activity</button></td>
 						</tr>
 					</c:forEach>
-				</table>
+				</table><br>
 				<button type="submit" name="logout"
 					class="btn btn-danger glyphicon glyphicon-off"
 					style="font-size: 100px; height: 200px; width: 100%">LOG

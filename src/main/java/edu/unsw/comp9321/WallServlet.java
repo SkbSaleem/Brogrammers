@@ -45,29 +45,14 @@ public class WallServlet extends HttpServlet {
 		
 //		String test = (String) result.get(0)[1];
 		
-		if (!result.isEmpty()) {
 			
 			//SearchBean searchBean = new SearchBean(search);
 			
-	
 			
-			System.out.println("PRINT ING G" + result);
-			
-			
-			 request.setAttribute("posts", result);
+			 request.getSession().setAttribute("posts", result);
 			
 			
-			 request.getRequestDispatcher("loggedin/wall.jsp").forward(request, response);
-			
-		}
-		else {
-			
-			request.getRequestDispatcher("loggedin/fail.jsp").forward(request, response);
-			
-		}
-		
-		
-		
+			 response.sendRedirect(request.getContextPath()+ "/loggedin/wall.jsp");		
 		
 		
 	}
