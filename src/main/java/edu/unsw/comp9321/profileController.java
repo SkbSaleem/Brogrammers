@@ -15,12 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONObject;
 
 /**
  * Servlet implementation class profileController
  */
 public class profileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private List <String> wordsList;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -29,6 +31,12 @@ public class profileController extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void init() throws ServletException {
+		   System.out.println("INIT servlet");
+		   FileReaderClass file = new FileReaderClass("bullylist2.txt");
+		   wordsList = (List<String>) file.getWordsList();
+		}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -71,6 +79,27 @@ public class profileController extends HttpServlet {
 					}
 				}
 				new PostData().createPost(items, c.getUserName());
+				//System.out.println(c.getUserName() + " posted: "+ items.get("textareapost"));
+				boolean match = false;
+				String JSON = new RestCurationAPI().
+						ExtractFeaturesRest("http://d2dcrc.cse.unsw.edu.au:9091/ExtractionAPI-0.0.1-SNAPSHOT/rest/keyword", 
+								"sentence", items.get("textareapost").toString());
+				for(String s : wordsList) {		
+				
+				for (String keyword : new JSONObject(JSON).get("keyword").toString().split(",")) {
+					if(s.equals(keyword)) {
+						System.out.println("match:" + keyword);
+						JavaMail.sendEmailToAdmin("christian.trinh@student.unsw.edu.au", 
+								items.get("textareapost").toString(), c.getUserName().toString());
+						match = true;
+						break;
+					}
+				}
+				if (match==true) {
+					break;
+				}
+				}
+				
 			} catch (Exception e) {
 			}
 		}
