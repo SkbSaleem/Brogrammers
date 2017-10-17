@@ -84,8 +84,7 @@ public class profileController extends HttpServlet {
 				String JSON = new RestCurationAPI().
 						ExtractFeaturesRest("http://d2dcrc.cse.unsw.edu.au:9091/ExtractionAPI-0.0.1-SNAPSHOT/rest/keyword", 
 								"sentence", items.get("textareapost").toString());
-				for(String s : wordsList) {		
-				
+				for(String s : wordsList) {					
 				for (String keyword : new JSONObject(JSON).get("keyword").toString().split(",")) {
 					if(s.equals(keyword)) {
 						System.out.println("match:" + keyword);
