@@ -208,6 +208,23 @@ public class UsersData implements Serializable {
 		session.close();
 		return users;
 	}
+	public String getUserEmail(String username) {
+		Session session = hh.getSessionFactory().openSession();
+		Transaction tt = null;
+		try {
+			tt = session.beginTransaction();
+			UsersPojo user = (UsersPojo) session.get(UsersPojo.class, username);
+			username = user.getEmail();
+			
+		}catch(Exception e) {
+			if (tt!=null) tt.rollback();
+			e.printStackTrace(); 
+		}
+		finally {
+			session.close();
+		}
+		return username;
+	}
 	public void banUser(String username) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt = null;

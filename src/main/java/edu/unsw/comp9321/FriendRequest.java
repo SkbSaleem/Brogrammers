@@ -49,12 +49,19 @@ public class FriendRequest extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
-		
-		
+		//doGet(request, response);
+	/*
+		String to2 = new UsersData().getUserEmail(request.getParameter("userTo"));
+		String r = request.getParameter("token");
+		System.out.println("Send mail to:" + to2);
+		System.out.println("User asking:" + r);
 
+
+		JavaMail.sendEmailForFriendRequest(to2.toString(),"test");*/
 	      // Recipient's email ID needs to be mentioned.
 	      String to = "skb.saleem@gmail.com";
+	      
+
 	      
 	 
 	      String from = "unswbookvalidation@gmail.com";//change accordingly

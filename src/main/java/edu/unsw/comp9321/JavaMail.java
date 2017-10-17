@@ -58,6 +58,7 @@ public class JavaMail {
 			}	
 	}
 	public static void sendEmailToAdmin(String to, String msg, String user) {
+
 		
 	      String from = "unswbookvalidation@gmail.com";
 	      final String username = "unswbookvalidation";
@@ -102,4 +103,49 @@ public class JavaMail {
 				e.printStackTrace();
 			}	
 	}
+	public static void sendEmailForFriendRequest(String to, String requestUser) {
+		   String from = "unswbookvalidation@gmail.com";
+		      final String username = "unswbookvalidation";
+		      final String password = "comp9321";
+		 
+		      Properties props = new Properties();
+		      props.put("mail.smtp.auth", "true");
+		      props.put("mail.smtp.starttls.enable", "true");
+		      props.put("mail.smtp.host", "smtp.gmail.com");
+		      props.put("mail.smtp.port", "587");
+		 
+		   // Get the Session object.
+		      Session session = Session.getInstance(props,
+		      new javax.mail.Authenticator() {
+		         protected PasswordAuthentication getPasswordAuthentication() {
+		            return new PasswordAuthentication(username, password);
+		         }
+		      });
+		      
+		   // Create a default MimeMessage object.
+		         try {
+			         MimeMessage message = new MimeMessage(session);
+
+		   	      // Set From: header field of the header.
+
+					message.setFrom(new InternetAddress(from));
+					// Set To: header field of the header.
+			         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			         
+			         // Set Subject: header field
+			         message.setSubject("Friendrequest");
+			         
+			         // Now set the actual message
+			         message.setText("You have received a Friend request from " + requestUser + "\n" + "http://localhost:8080/UNSWBook/loggedin/confirmFriend.jsp?token="+requestUser);
+			         Transport.send(message);
+			         System.out.println("Email sent");
+				} catch (AddressException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+	}
+			
 }
