@@ -33,7 +33,7 @@
 			<c:if test="${not empty posts}">
 
 				<c:forEach var="array" items="${posts}">
-					<form action="/UNSWBook/LikeServlet" method="post">
+					<form action="/UNSWBook/WallServlet" method="post">
 						<c:set var="pid" scope="session" value="${array.timeposted}" />
 						<div class="panel panel-success">
 							<div class="panel-heading">

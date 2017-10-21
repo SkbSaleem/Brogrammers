@@ -68,13 +68,8 @@ public class Wall {
 					
 					
 				}
-				
 			}
-			
-			
 		}
-		
-		System.out.println("display :::::" + displayPostList);
 		session.close();
 		return displayPostList;
 

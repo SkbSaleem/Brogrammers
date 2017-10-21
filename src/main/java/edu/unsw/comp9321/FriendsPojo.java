@@ -34,7 +34,7 @@ public class FriendsPojo {
 	private String user1;
 	@Column(name="User2")
 	private String user2;
-	@Column(name="FriendsSinces")
+	@Column(name="FriendsSince")
 	private Timestamp friendsSince;
 }
 

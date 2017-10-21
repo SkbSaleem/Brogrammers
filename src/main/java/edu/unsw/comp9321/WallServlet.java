@@ -36,11 +36,23 @@ public class WallServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		if(request.getParameter("likes") != null) {
+			int post_id = Integer.parseInt(request.getParameter("post_id"));
+			String username = ((UsersPojo) request.getSession().getAttribute("credit")).getUserName();
+			
+			new Like().addLike(username, post_id);
+			Wall wallReturn = new Wall();
+			List<PostPojo> result = wallReturn.wallPost(request);
+			request.getSession().setAttribute("posts", result);
+
+			System.out.println("RESULT" + result);
+				
+			//request.getRequestDispatcher("/WallServlet").forward(request, response);
+		}
 		
 		Wall wallReturn = new Wall();
 		List<PostPojo> result = wallReturn.wallPost(request);
-		System.out.println("RESULT" + result);
+		request.getSession().setAttribute("posts", result);
 		
 		
 //		String test = (String) result.get(0)[1];
@@ -49,7 +61,7 @@ public class WallServlet extends HttpServlet {
 			//SearchBean searchBean = new SearchBean(search);
 			
 			
-			 request.getSession().setAttribute("posts", result);
+			 //request.getSession().setAttribute("posts", result);
 			
 			
 			 response.sendRedirect(request.getContextPath()+ "/loggedin/wall.jsp");		

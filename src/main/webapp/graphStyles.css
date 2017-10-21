@@ -1,0 +1,31 @@
+.node {
+	stroke: #fff;
+	fill: #85c1e9;
+	stroke-width: 2px;
+}
+
+.link {
+	stroke: #60707b;
+	stroke-opacity: .6;
+	stroke-width: 2px;
+}
+
+marker {
+	stroke: #999;
+	fill: rgba(124, 240, 10, 0);
+}
+
+.node-text {
+	font: 11px sans-serif bold;
+	fill: black;
+}
+
+.link-text {
+	font: 11px sans-serif;
+	fill: #00630c;
+}
+
+svg {
+	background-color : #d9dbdc;
+	border: 1px solid black;
+}
