@@ -58,9 +58,10 @@
 								<td><center>
 										<input type="hidden" name="token"
 											value=<c:out value="${token}"/>>
-										<input type="hidden" name="userTo" value="${item.userName}">
+										<!-- <input type="hidden" name="userTo" value="${item.userName}"> -->
 											
-										<button type="submit" class="btn btn-primary">Send
+										<button type="submit" name="userTo" value="${item.userName},${item.url}" 
+										class="btn btn-primary">Send
 											Friend Request</button>
 									</center></td>
 							</tr>

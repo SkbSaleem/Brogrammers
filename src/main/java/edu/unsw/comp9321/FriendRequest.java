@@ -50,16 +50,17 @@ public class FriendRequest extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-	/*
-		String to2 = new UsersData().getUserEmail(request.getParameter("userTo"));
-		String r = request.getParameter("token");
+		System.out.println(request.getParameter("userTo"));
+		String[] params = request.getParameter("userTo").split(",");
+		String to2 = new UsersData().getUserEmail(params[0]);
+		String r = params[1];
 		System.out.println("Send mail to:" + to2);
 		System.out.println("User asking:" + r);
 
 
-		JavaMail.sendEmailForFriendRequest(to2.toString(),"test");*/
+		JavaMail.sendEmailForFriendRequest(to2.toString(), r);
 	      // Recipient's email ID needs to be mentioned.
-	      String to = "skb.saleem@gmail.com";
+	      /*String to = "skb.saleem@gmail.com";
 	      
 
 	      
@@ -116,7 +117,7 @@ public class FriendRequest extends HttpServlet {
 	        
 	      } catch (MessagingException mex) {
 	         mex.printStackTrace();
-	      }
+	      }*/
 	      
 	   }
 	

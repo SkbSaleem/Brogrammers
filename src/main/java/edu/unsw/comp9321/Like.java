@@ -40,19 +40,7 @@ public class Like {
 			
 			deleteLike(username, post_id);
 		}
-		/*Query queryResult = session.createSQLQuery("SELECT Likes from posts where PostId = :id");
-		queryResult.setParameter("id", post_id);
-		Integer likes = (Integer) queryResult.uniqueResult();
-		tt.commit();
-		System.out.println("Likes are" + likes);
 		
-		
-		likes = likes + 1;
-		tt = session.beginTransaction();
-		Query query = session.createQuery("update PostPojo set likes = :likes where PostId = :id");
-		query.setParameter("likes", likes);
-		query.setParameter("id", post_id);
-		int result = query.executeUpdate();*/
 		Session session3 = hh.getSessionFactory().openSession();
 		Transaction tt3 = session3.beginTransaction();
 		
@@ -60,19 +48,22 @@ public class Like {
 				.setParameter("postid", post_id).uniqueResult()).intValue();
 		
 		PostPojo post = (PostPojo) session3.get(PostPojo.class, post_id);
+		System.out.println(likes);
 		post.setLikes(likes);
 		session3.merge(post);
 		tt3.commit();
 		session3.close();
-		//return null;
-		
 	}
+	
 	public void deleteLike(String username, int postid) {
 		Session session = hh.getSessionFactory().openSession();
 		Transaction tt =session.beginTransaction();
 		Query unlike = session.createSQLQuery("DELETE FROM likes WHERE PostId = :postid && UserName = :username")
 				.setParameter("postid", postid).setParameter("username", username);
 		unlike.executeUpdate();
+		PostPojo post = (PostPojo) session.get(PostPojo.class, postid);
+		post.setLikes(post.getLikes() - 1);
+		session.saveOrUpdate(post);
 		tt.commit();
 		session.close();
 	}

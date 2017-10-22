@@ -1,6 +1,7 @@
 package edu.unsw.comp9321;
 
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -99,8 +100,15 @@ public class PostData {
 			tx = session.beginTransaction();
 			Query query = session.createQuery("select p from PostPojo p where p.username = :username").setParameter("username", username);
 			List <PostPojo> querylist = query.list();
-			tx.commit();
 			Collections.reverse(querylist);
+			/*for(PostPojo post : querylist) {
+				int id = post.getPostid();
+				Integer likes =  ((BigInteger) session.createSQLQuery("SELECT COUNT(l.PostId) FROM likes l WHERE l.PostId = :postid")
+						.setParameter("postid", id).uniqueResult()).intValue();
+				post.setLikes(likes);
+				session.merge(post);
+			}*/
+			tx.commit();
 			return querylist;
 
 		}
@@ -111,23 +119,5 @@ public class PostData {
 			session.close();
 		}
 		return null;
-	}
-	public void likePost(int postId) {
-		Session session = hh.getSessionFactory().openSession();
-		Transaction tx=null;		
-
-		try {
-			tx = session.beginTransaction();		   
-			Query query = session.createQuery("update posts p set p.Likes = p.Likes + 1 where p.PostId = :postid").setParameter("postid", postId);
-
-			query.executeUpdate();
-			tx.commit();
-		}
-		catch (Exception e) {
-			if (tx!=null) tx.rollback();
-			e.printStackTrace(); 
-		}finally {
-			session.close();
-		}
 	}
 }

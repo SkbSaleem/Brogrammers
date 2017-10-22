@@ -44,27 +44,13 @@ public class WallServlet extends HttpServlet {
 			Wall wallReturn = new Wall();
 			List<PostPojo> result = wallReturn.wallPost(request);
 			request.getSession().setAttribute("posts", result);
-
-			System.out.println("RESULT" + result);
-				
-			//request.getRequestDispatcher("/WallServlet").forward(request, response);
 		}
 		
 		Wall wallReturn = new Wall();
 		List<PostPojo> result = wallReturn.wallPost(request);
 		request.getSession().setAttribute("posts", result);
-		
-		
-//		String test = (String) result.get(0)[1];
-		
 			
-			//SearchBean searchBean = new SearchBean(search);
-			
-			
-			 //request.getSession().setAttribute("posts", result);
-			
-			
-			 response.sendRedirect(request.getContextPath()+ "/loggedin/wall.jsp");		
+		response.sendRedirect(request.getContextPath()+ "/loggedin/wall.jsp");		
 		
 		
 	}

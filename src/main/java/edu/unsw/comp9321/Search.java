@@ -29,21 +29,8 @@ public class Search {
 				+ " or firstName=:search_text or lastName=:search_text) and (not userName=:username)")
 				.setParameter("search_text", user_input).setParameter("username", username).list();
 		session.close();
-		if (!userDetails.isEmpty()) {
 
 			System.out.println(userDetails);
 			return userDetails;
-		}
-		else {
-
-			return null;
-
-		}
-
-
-
-
-
 	}
-
 }
